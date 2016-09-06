@@ -10,13 +10,18 @@ body {
 	display: none;
 }
 
-h1, h3, .dashboard {
+h1, h3, .dashboard, form>p {
 	text-align: center;
 }
 
 form {
-	height: 270px;
+	height: 300px;
 }
+
+form>p {
+	margin: 1px;
+}
+
 
 .form input {
 	width: 100%;
