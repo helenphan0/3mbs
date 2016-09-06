@@ -1,0 +1,88 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+}
+
+.hidden {
+	display: none;
+}
+
+h1, h3, .dashboard {
+	text-align: center;
+}
+
+form {
+	height: 270px;
+}
+
+.form input {
+	width: 100%;
+	height: 35px;
+	padding: 5px;
+	margin: 5px auto;
+}
+
+.intro, .form, div.mind, div.body, div.soul, .dashboard, .selection {
+	margin: auto;
+	border: 1px solid lightgray;
+}
+
+.dashboard {
+	height: 250px;
+}
+
+.db-item {
+	display: inline-block;
+	width: 10%;
+	margin: 20px;
+	font-size: 30px;
+	border: 1px solid lightgray;
+}
+
+.form {
+	margin-top: 50px;
+	width: 350px;
+	padding: 20px;
+}
+
+.intro, .dashboard, .mbs {
+	margin: 25px auto;
+	width: 50%;
+}
+
+div.mind, div.body, div.soul {
+	height: 25%;
+	font-size: 22px;
+
+}
+
+p.mbs, .dashboard p {
+	text-align: center;
+	font-weight: bolder;
+	margin: 15px auto;
+}
+
+.selection {
+	margin: 5px;
+	min-height: 55px;
+	padding: 30px;
+}
+
+div.selection div, div.add-item div {
+	float: right;
+	height: 100%;
+	margin-left: 15px;
+	font-size: 25px;
+
+}
+
+div.add-item {
+	height: 50px;
+	width: 70%;
+	margin: auto;
+	padding: 15px;
+	font-size: 22px;
+}
