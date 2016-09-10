@@ -1,27 +1,8 @@
 // app/routes.js
 
-function randomDate(){
-   var startDate = new Date(2014,1,1).getTime();
-   var endDate =  new Date().getTime();
-   var spaces = (endDate - startDate);
-   var timestamp = Math.round(Math.random() * spaces);
-   timestamp += startDate;
-   return new Date(timestamp);
-};
-
-function formatDate(date){
-    var month = randomDate().getMonth();
-    var day = randomDate().getDate();
-
-    month = month < 10 ? '0' + month : month;
-    day = day < 10 ? '0' + day : day;
-
-    return String(date.getFullYear()) + '-' + month + '-' + day;
-};
-
 // load up models
-// var User = require('../app/models/user-model');
 var models = require('../app/models/user-model');
+var $ = require('jQuery');
 
 module.exports = function(app, passport) {
 
@@ -45,7 +26,6 @@ module.exports = function(app, passport) {
     // process the login form
     // app.post('/login', do all our passport stuff here);
 
-     // process the login form
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/main', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
@@ -83,6 +63,7 @@ module.exports = function(app, passport) {
 
 
         // ===================
+
         app.post('/addMind', function(req, res) {
                 models.Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
 
@@ -203,26 +184,24 @@ module.exports = function(app, passport) {
             }));
 
 
-// ==========================
+/*
 
 app.get('/addMind', function (req, res) {
     console.log('get: ' + req.body);
     // res.render('main.ejs', { }
 });
 
-
+*/
 
 
 // ======================================
     app.get('/nasa', function(req, res) {
-        var date = formatDate(randomDate());
-        var url = "https://api.nasa.gov/planetary/apod?api_key=ul1h9pBDxKXZasQ7crI3gqduqlnms2VTs5w683FI&date=" + date;
-        $(document).ajax({
+        var url = "https://api.nasa.gov/planetary/apod?api_key=ul1h9pBDxKXZasQ7crI3gqduqlnms2VTs5w683FI";
+        $.ajax({
              url: url,
              success: function(result) {
-                res.render('main.ejs', result)
                 console.log(result);
-                
+                res.render('main.ejs', result);
             }
         });
 

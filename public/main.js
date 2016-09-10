@@ -14,10 +14,8 @@ function randomDate(){
 function formatDate(date){
     var month = randomDate().getMonth();
     var day = randomDate().getDate();
-
     month = month < 10 ? '0' + month : month;
     day = day < 10 ? '0' + day : day;
-
     return String(date.getFullYear()) + '-' + month + '-' + day;
 };
 
@@ -63,7 +61,7 @@ $(document).ready(function() {
 
 	$('div.add-item-icon').click(function(){
 		$('div.add-entry').slideToggle();
-	})
+	});
 
 
 	$('div.nasa-selection').on('click', '.check', function() {

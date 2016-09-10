@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var bcrypt = require('bcryptjs');
 var flash = require('connect-flash');
+var $ = require('jQuery');
 
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
