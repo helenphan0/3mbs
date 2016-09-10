@@ -41,9 +41,13 @@ UserSchema.methods.validPassword = function(password) {
 };
 
 var Mind = mongoose.model('Mind', MindSchema, 'minds');
+var Body = mongoose.model('Body', UserSchema, 'bodies');
+var Soul = mongoose.model('Soul', MindSchema, 'souls');
 var User = mongoose.model('User', UserSchema, 'users');
 
 module.exports = {
     User: User,
-    Mind: Mind
+    Mind: Mind,
+    Body: Body,
+    Soul: Soul
 }

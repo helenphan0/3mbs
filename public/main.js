@@ -41,16 +41,15 @@ function getWorkout() {
 	.done(function(result) {
 		var x = getRandom(0, result.items.length);
 		console.log(x);
-		console.log(result.items[x]);
-		console.log(result.items[x].id);
+		console.log(result.items[x].snippet.title);
+		console.log(result.items[x].id.videoId);
 
-		videourl += result.items[x].id.videoId;
+		var videourl = "https://www.youtube.com/embed/" + result.items[x].id.videoId + "?html5=1";
 		$('#workout-vid').attr('src', videourl);
 		$('p.titleYT').text(result.items[x].snippet.title);
 		});
 };
 
-var videourl = "https://www.youtube.com/embed/";
 
 $(document).ready(function() {
 
@@ -62,6 +61,10 @@ $(document).ready(function() {
 		}
 	});
 
+	$('div.add-item-icon').click(function(){
+		$('div.add-entry').slideToggle();
+	})
+
 
 	$('div.nasa-selection').on('click', '.check', function() {
 		console.log('nasa option clicked');
@@ -72,13 +75,13 @@ $(document).ready(function() {
 	});
 
 
-
 	$('div.youtube-selection').on('click', '.check', function() {
 		console.log('5-min workout selection');
+		getWorkout();
 		$('div.grey-out').fadeIn(300);
 		$('div.box').fadeIn(300);
 		$('.youtube-box').show();
-		getWorkout();
+		
 
 	})
 

@@ -97,15 +97,9 @@ module.exports = function(app, passport) {
 
                     else {
                         var mind = new models.Mind();
-
                         mind.activity = req.body.mindvalue;
                         console.log(mind);
-
                         console.log('-------------');
-                        console.log(models.Mind.collection);
-
-                        console.log('-------------');
-
                     }
         
                     mind.save(function(err) {
@@ -117,7 +111,66 @@ module.exports = function(app, passport) {
 
         });
 
-    // ===================
+        // ===================
+
+        app.post('/addBody', function(req, res) {
+                models.Body.findOne({ activity: req.body.bodyvalue}, function(err, mind) {
+
+                    if (err) {
+                        console.log(req.body.bodyvalue + ' already exists');
+                        return res.status(500);
+                    }
+
+                    if (body) {
+                        return res.status(200).json(null);
+                    }
+
+                    else {
+                        var body = new models.Body();
+                        body.activity = req.body.bodyvalue;
+                        console.log(body);
+                        console.log('-------------');
+                    }
+
+                    body.save(function(err) {
+                            if (err)
+                                res.status(500);
+                            return res.render('main.ejs');
+                        });
+                });
+
+        });
+    
+        // ===================
+
+        app.post('/addSoul', function(req, res) {
+
+                models.Soul.findOne({ activity: req.body.soulvalue}, function(err, mind) {
+
+                    if (err) {
+                        console.log(req.body.soulvalue + ' already exists');
+                        return res.status(500);
+                    }
+
+                    if (soul) {
+                        return res.status(200).json(null);
+                    }
+
+                    else {
+                        var soul = new models.Soul();
+                        soul.activity = req.body.soulvalue;
+                        console.log(soul);
+                        console.log('-------------');
+                    }
+                    
+                    soul.save(function(err) {
+                            if (err)
+                                res.status(500);
+                            return res.render('main.ejs');
+                        });
+                });
+        });
+
 
     });
     

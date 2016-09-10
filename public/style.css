@@ -10,46 +10,38 @@ body {
 	display: none;
 }
 
-.grey-out {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	background: rgba(0,0,0,0.5);
-	z-index: 900;
-}
-
-.nasa-box {
-	height: inherit;
-	padding: 10px;
-}
-
-.nasa-img {
-	width: 90%;
-	height: 65%;
-	margin: 0 auto;
-	overflow: hidden;
-}
-
-#apod_img_id, #apod_vid_id {
-	height: 90%;
-}
-
-.box {
-	position: relative;
-	background-color: white;
-	opacity: 1;
-	height: 83%;
-	width: 83%;
-	text-align: center;
-	padding: 15px 20px;
-	top: 9%;
+div.add-item {
+	height: 50px;
+	width: 70%;
 	margin: auto;
-	border-radius: 6px;
+	padding: 7px;
+	font-size: 22px;
+	white-space: nowrap;
 	overflow: hidden;
-  	text-overflow: ellipsis;
 }
+
+div.add-entry {
+	margin-bottom: 10px;
+	display: none;
+}
+
+div.add-entry form {
+	display: inline-block;
+	padding: 3px 0;
+	width: 100%;
+}
+
+div.add-entry input {
+	width: 50%;
+		padding: 3px 5px;
+}
+
+div.add-entry button {
+	width: 75px;
+	padding: 5px 0;
+}
+
+
 
 h1, h3, h4, .dashboard, form>p, .other-login {
 	text-align: center;
@@ -153,12 +145,43 @@ div.check, div.add-item div {
 
 }
 
-div.add-item {
-	height: 50px;
-	width: 70%;
-	margin: auto;
-	padding: 7px;
-	font-size: 22px;
-	white-space: nowrap;
+.grey-out {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	z-index: 900;
+}
+
+.nasa-box {
+	height: inherit;
+	padding: 10px;
+}
+
+.nasa-img {
+	width: 90%;
+	height: 65%;
+	margin: 0 auto;
 	overflow: hidden;
+}
+
+#apod_img_id, #apod_vid_id {
+	height: 90%;
+}
+
+.box {
+	position: relative;
+	background-color: white;
+	opacity: 1;
+	height: 83%;
+	width: 83%;
+	text-align: center;
+	padding: 15px 20px;
+	top: 9%;
+	margin: auto;
+	border-radius: 6px;
+	overflow: hidden;
+  	text-overflow: ellipsis;
 }
