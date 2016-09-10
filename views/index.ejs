@@ -1,0 +1,86 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html lang="en">
+<head>
+    <title>3mbs - 3 steps for your mind, body, and soul</title>
+    <meta charset="utf-8">
+
+    <!-- Normalize stylesheet -->   
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+
+   <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> 
+
+    <!-- Fonts, CSS -->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+
+</head>
+<body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1819293234971177',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<main>
+
+<section class="intro">
+  <div>
+    <h1>3mbs</h1>
+    <h3>Take three simple steps a day and improve your life in mind, body, and soul.</h3>
+    <p>Have an account? <a href="/login">Login here</a></p>
+
+  </div>
+  </section>
+
+  <section class="form">
+
+    <form id="form" action="/signup" method="post">
+      <h4>Create your account</h4>
+  
+        <div class="form-group">
+            <label for="nickname">Nickname:</label>
+            <input type="text" id="nickname" name="nickname" placeholder="Hilary C">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="tacotruck@mycorner.com">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" name="password">
+            <input type="password" id="password" name="password" placeholder="confirm your password">
+        </div>
+        <div class="form-group">
+            <input class="submit" type="submit" value="Submit">
+        </div>
+
+        <div class="other-login">
+            <p>Login or Register with:</p>
+        <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+         <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+         </div>
+    </form>
+
+  </section>
+
+</main>  
+
+
+  <script src="https://code.jquery.com/jquery.min.js"></script>
+      <script src="/main.js"></script> 
+</body>
+</html>

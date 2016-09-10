@@ -1,0 +1,93 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html lang="en">
+<head>
+    <title>3mbs - 3 steps for your mind, body, and soul</title>
+    <meta charset="utf-8">
+
+    <!-- Normalize stylesheet -->   
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+
+   <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> 
+
+    <!-- Fonts, CSS -->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1819293234971177',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <strong>password</strong>: <%= user.local.password %>
+                    </p>
+
+            </div>
+        </div>
+
+      <!-- FACEBOOK INFORMATION -->
+            <div class="col-sm-6">
+                <div class="well">
+                    <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
+
+                        <p>
+                            <strong>id</strong>: <%= user.facebook.id %><br>
+                            <strong>token</strong>: <%= user.facebook.token %><br>
+                            <strong>email</strong>: <%= user.facebook.email %><br>
+                            <strong>name</strong>: <%= user.facebook.displayName %>
+                        </p>
+
+                </div>
+            </div>
+
+       <!-- GOOGLE INFORMATION -->
+              <div class="col-sm-6">
+                  <div class="well">
+                      <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+
+                          <p>
+                              <strong>id</strong>: <%= user.google.id %><br>
+                              <strong>token</strong>: <%= user.google.token %><br>
+                              <strong>email</strong>: <%= user.google.email %><br>
+                              <strong>name</strong>: <%= user.google.name %>
+                          </p>
+
+                  </div>
+              </div>
+    </div>
+
+</div>
+</body>
+</html>
