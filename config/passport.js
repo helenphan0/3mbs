@@ -102,14 +102,16 @@ module.exports = function(passport) {
                     return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
                 } 
                 else {
+
                     // if there is no user with that email
                     // create the user
                     var newUser = new User();
 
                     // set the user's local credentials
+                    newUser.local.nickname = req.body.nickname;
                     newUser.local.email    = email;
                     newUser.local.password = newUser.generateHash(password);
-                    console.log(newUser);
+                    
                     // save the user
                     newUser.save(function(err) {
                         if (err)

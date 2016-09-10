@@ -60,7 +60,6 @@ $(document).ready(function() {
 			console.log('empty input');
 			return false
 		}
-		console.log('input button clicked');
 	});
 
 

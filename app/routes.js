@@ -1,7 +1,7 @@
 // app/routes.js
 
 function randomDate(){
-   var startDate = new Date(2012,1,1).getTime();
+   var startDate = new Date(2014,1,1).getTime();
    var endDate =  new Date().getTime();
    var spaces = (endDate - startDate);
    var timestamp = Math.round(Math.random() * spaces);
@@ -21,6 +21,7 @@ function formatDate(date){
 
 // load up models
 var User = require('../app/models/user-model');
+var Mind = require('../app/models/user-model');
 
 module.exports = function(app, passport) {
 
@@ -65,7 +66,7 @@ module.exports = function(app, passport) {
     // app.post('/signup', do all our passport stuff here);
 
       app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/profile', // redirect to the secure profile section
+        successRedirect : '/main', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
@@ -147,12 +148,10 @@ app.post('/addMind', function(req, res) {
 });
 
 // ======================================
-
-
     app.get('/nasa', function(req, res) {
         var date = formatDate(randomDate());
         var url = "https://api.nasa.gov/planetary/apod?api_key=ul1h9pBDxKXZasQ7crI3gqduqlnms2VTs5w683FI&date=" + date;
-        $.ajax({
+        $(document).ajax({
              url: url,
              success: function(result) {
                 res.render('main.ejs', result)
@@ -161,7 +160,7 @@ app.post('/addMind', function(req, res) {
             }
         });
 
-    })
+    });
 
     // =====================================
     // LOGOUT ==============================

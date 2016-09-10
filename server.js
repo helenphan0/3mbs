@@ -11,7 +11,7 @@ var session = require('express-session');
 
 var configDB = require('./config/database.js');
 var User = require('./app/models/user-model');
-var Mind = require('./app/models/user-model');
+
 mongoose.connect(configDB.url);
 
 require('./config/passport')(passport);
@@ -30,14 +30,6 @@ require('./app/routes.js')(app, passport);
 
 
 exports.app = app;
-
-
-
-
-
-
-
-
 
 
 app.listen(process.env.PORT || 8080, function() {
