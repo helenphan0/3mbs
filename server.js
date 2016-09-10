@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 var configDB = require('./config/database.js');
-var User = require('./app/models/user-model');
+var models = require('./app/models/user-model');
 
 mongoose.connect(configDB.url);
 

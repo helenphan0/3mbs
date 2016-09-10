@@ -20,8 +20,8 @@ function formatDate(date){
 };
 
 // load up models
-var User = require('../app/models/user-model');
-var Mind = require('../app/models/user-model');
+// var User = require('../app/models/user-model');
+var models = require('../app/models/user-model');
 
 module.exports = function(app, passport) {
 
@@ -80,6 +80,45 @@ module.exports = function(app, passport) {
         res.render('main.ejs', {
             user : req.user // get the user out of session and pass to template
         });
+
+
+        // ===================
+        app.post('/addMind', function(req, res) {
+                models.Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
+
+                    if (err) {
+                        console.log(req.body.mindvalue + ' already exists');
+                        return res.status(500);
+                    }
+
+                    if (mind) {
+                        return res.status(200).json(null);
+                    }
+
+                    else {
+                        var mind = new models.Mind();
+
+                        mind.activity = req.body.mindvalue;
+                        console.log(mind);
+
+                        console.log('-------------');
+                        console.log(models.Mind.collection);
+
+                        console.log('-------------');
+
+                    }
+        
+                    mind.save(function(err) {
+                            if (err)
+                                res.status(500);
+                            return res.render('main.ejs');
+                        });
+                });
+
+        });
+
+    // ===================
+
     });
     
     // =====================================
@@ -118,34 +157,8 @@ app.get('/addMind', function (req, res) {
     // res.render('main.ejs', { }
 });
 
-app.post('/addMind', function(req, res) {
-        console.log(req.body.mindvalue);
-        Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
 
-            if (err) {
-                console.log(req.body.mindvalue + ' already exists');
-                return res.status(500);
-            }
 
-            if (mind) {
-                return res.status(200).json(null);
-            }
-
-            else {
-                var mind = new Mind();
-                mind.activity = req.body.mindvalue;
-                console.log(mind);
-            }
-
-            mind.save(function(err, mind) {
-                    if (err)
-                        res.status(500);
-
-                    return res.status(200).json(mind);
-                });
-        });
-       
-});
 
 // ======================================
     app.get('/nasa', function(req, res) {
