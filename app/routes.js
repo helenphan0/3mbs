@@ -1,10 +1,18 @@
 // app/routes.js
 
+function getRandom(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
+var ytURL = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=35&';
+ytURL += 'q=5-min+workout+easy&key=AIzaSyDnahmSz7sdcFj_jMe6pb-P5vPxdO9Me2A&r=json';
+
+
 // load up models
 var models = require('../app/models/user-model');
-var $ = require('jQuery');
 
-module.exports = function(app, passport) {
+module.exports = function(app, passport, unirest) {
+
 
     // =====================================
     // HOME PAGE (with login links) ========
@@ -58,7 +66,9 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/main', isLoggedIn, function(req, res) {
         res.render('main.ejs', {
-            user : req.user // get the user out of session and pass to template
+            user : req.user, // get the user of the session and pass to template
+            video: '', 
+            picture: ''
         });
 
 
@@ -68,11 +78,11 @@ module.exports = function(app, passport) {
                 models.Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
 
                     if (err) {
-                        console.log(req.body.mindvalue + ' already exists');
                         return res.status(500);
                     }
 
                     if (mind) {
+                        console.log(req.body.mindvalue + ' already exists');
                         return res.status(200).json(null);
                     }
 
@@ -84,9 +94,11 @@ module.exports = function(app, passport) {
                     }
         
                     mind.save(function(err) {
-                            if (err)
+                            if (err) {
                                 res.status(500);
-                            return res.render('main.ejs');
+                            }
+                            console.log('saved activity: ' + mind);
+                            return res.redirect('/main');
                         });
                 });
 
@@ -98,11 +110,11 @@ module.exports = function(app, passport) {
                 models.Body.findOne({ activity: req.body.bodyvalue}, function(err, mind) {
 
                     if (err) {
-                        console.log(req.body.bodyvalue + ' already exists');
                         return res.status(500);
                     }
 
                     if (body) {
+                        console.log(req.body.bodyvalue + ' already exists');
                         return res.status(200).json(null);
                     }
 
@@ -114,9 +126,11 @@ module.exports = function(app, passport) {
                     }
 
                     body.save(function(err) {
-                            if (err)
+                            if (err) {
                                 res.status(500);
-                            return res.render('main.ejs');
+                            }
+                            console.log('saved activity: ' + body);
+                            return res.redirect('/main');
                         });
                 });
 
@@ -129,11 +143,11 @@ module.exports = function(app, passport) {
                 models.Soul.findOne({ activity: req.body.soulvalue}, function(err, mind) {
 
                     if (err) {
-                        console.log(req.body.soulvalue + ' already exists');
                         return res.status(500);
                     }
 
                     if (soul) {
+                        console.log(req.body.soulvalue + ' already exists');
                         return res.status(200).json(null);
                     }
 
@@ -145,13 +159,50 @@ module.exports = function(app, passport) {
                     }
                     
                     soul.save(function(err) {
-                            if (err)
+                            if (err){
                                 res.status(500);
-                            return res.render('main.ejs');
+                            }
+                            console.log('saved activity: ' + soul);
+                            return res.redirect('/main');
                         });
                 });
         });
 
+
+        // ======================================
+
+         app.get('/main/youtube', function(req, res) {
+            unirest.get(ytURL)
+            .end(function(response) {
+                if (response.ok) {
+                    var x = getRandom(0, response.body.items.length);
+                    console.log(x);
+                    var item = response.body.items[x];
+                    console.log(item);
+                    res.render('main.ejs', {user: req.user, picture: '', video: item});
+                    res.end();
+                }
+                else {
+                    res.status(500);
+                }
+            }); 
+         });
+
+         // ======================================
+        app.get('/nasa', function(req, res) {
+            var url = "https://api.nasa.gov/planetary/apod?api_key=ul1h9pBDxKXZasQ7crI3gqduqlnms2VTs5w683FI";
+            unirest.get(url)
+                 .end(function(response) {
+                    if (response.ok) {
+                        var picture = response.body;
+                        res.render('main.ejs', {user: req.user, picture: picture, video: ''});
+                    }
+                    else {
+                        res.status(500);
+                    }
+                });
+
+        });
 
     });
     
@@ -182,30 +233,12 @@ module.exports = function(app, passport) {
                     successRedirect : '/main',
                     failureRedirect : '/'
             }));
-
-
 /*
 
-app.get('/addMind', function (req, res) {
-    console.log('get: ' + req.body);
-    // res.render('main.ejs', { }
-});
+
 
 */
 
-
-// ======================================
-    app.get('/nasa', function(req, res) {
-        var url = "https://api.nasa.gov/planetary/apod?api_key=ul1h9pBDxKXZasQ7crI3gqduqlnms2VTs5w683FI";
-        $.ajax({
-             url: url,
-             success: function(result) {
-                console.log(result);
-                res.render('main.ejs', result);
-            }
-        });
-
-    });
 
     // =====================================
     // LOGOUT ==============================

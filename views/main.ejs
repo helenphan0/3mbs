@@ -8,9 +8,6 @@
     <!-- Normalize stylesheet -->   
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
 
-   <!-- load bootstrap css 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
-
     <!-- Fonts, CSS -->
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <link rel="stylesheet" href="/style.css">
@@ -36,9 +33,6 @@
 </script>
 
 
-
-
-
 <main>
 <section class="dashboard">
     <div>
@@ -47,7 +41,8 @@
       <div class="db-item"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
       <div class="db-item"><i class="fa fa-bicycle" aria-hidden="true"></i></div>
       <div class="db-item"><i class="fa fa-heart" aria-hidden="true"></i></div>
-      <div class="add-item">Add your own activity <div class="add-item-icon"><i class="fa fa-pencil-square" aria-hidden="true"></i></div></div>
+      <div class="add-item"><div class="add-item-text">Add your own activity </div><div class="add-item-icon"><i class="fa fa-pencil-square" aria-hidden="true"></i></div></div>
+
       <div class="add-entry">
         <form id="mindform" action="/addMind" method="post">
           <input name="mindvalue" class="mindvalue" type="text">
@@ -62,9 +57,9 @@
             <button  type="submit">Add <i class="fa fa-heart" aria-hidden="true"></i></button>
         </form>
       </div>
+
       <div class="profile">Edit your profile</div>
       <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-
     </div>
   </section>
 
@@ -75,16 +70,16 @@
         <div class="selection">
           <div class="selection-text mind1">Get updated on the news</div>
           <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
-          </div>
+        </div>
         <div class="selection">
           <div class="selection-text mind2">Take a break from your work</div>
           <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
-          </div>
+        </div>
         <div class="selection nasa-selection">
           <div class="selection-text mind3">Check out an astrology photo from NASA
           </div>
           <a href="/nasa"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
-          </div>
+        </div>
       </div>
     </div>
 
@@ -98,13 +93,14 @@
         <div class="selection">
           <div class="selection-text body2">Go outside for a quick walk</div>
           <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
-          </div>
+        </div>
         <div class="selection youtube-selection">
           <div class="selection-text body3">Do a 5-minute workout</div>
-          <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
-          </div>
+          <a href="/main/youtube"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
+        </div>
       </div>
     </div>
+
     <div class="soul">
       <p class="mbs">Soul <i class="fa fa-heart" aria-hidden="true"></i></p>
       <div class="options">
@@ -124,34 +120,10 @@
         <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></div>
       </div>
     </div>
-
-
   </section>
 
+<% include ./popup %>
 
-<div class="grey-out nasa hidden">
-    <div class="box nasa hidden">
-      <div class="nasa-box">
-            <h3 id="apod_title"></h3>
-            <div class="nasa-img"><img id="apod_img_id" src="">
-            <iframe id="apod_vid_id" type="text/html" width="640" height="385" frameborder="0"></iframe></div>
-            <p id="copyright"></p>
-            <p id="photo-date"></p>
-            <p id="apod_explaination"></p>
-      </div>
-  </div>
-</div>
-
-
-<div class="grey-out youtube hidden">
-    <div class="box youtube hidden">
-
-      <div class="youtube-box">
-            <iframe id="workout-vid" width="560" height="315" frameborder="0" allowfullscreen></iframe>
-            <p class="titleYT"></p></a>
-      </div>
-  </div>
-</div>  
 
 </main>
 

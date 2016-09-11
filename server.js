@@ -1,10 +1,10 @@
 var express = require('express');
+var unirest = require('unirest');
 var app = express();
 var mongoose = require('mongoose');
 var passport = require('passport');
 var bcrypt = require('bcryptjs');
 var flash = require('connect-flash');
-var $ = require('jQuery');
 
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -27,11 +27,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-require('./app/routes.js')(app, passport);
-
+require('./app/routes.js')(app, passport, unirest);
 
 exports.app = app;
-
 
 app.listen(process.env.PORT || 8080, function() {
     console.log('Server started at http://localhost:8080');

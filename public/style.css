@@ -12,12 +12,16 @@ body {
 
 div.add-item {
 	height: 50px;
-	width: 70%;
+	width: 90%;
 	margin: auto;
 	padding: 7px;
 	font-size: 22px;
-	white-space: nowrap;
+}
+
+div.add-item-text {
+	width: 70%;
 	overflow: hidden;
+	display: inline-block;
 }
 
 div.add-entry {
@@ -33,15 +37,13 @@ div.add-entry form {
 
 div.add-entry input {
 	width: 50%;
-		padding: 3px 5px;
+	padding: 3px 5px;
 }
 
 div.add-entry button {
 	width: 75px;
 	padding: 5px 0;
 }
-
-
 
 h1, h3, h4, .dashboard, form>p, .other-login {
 	text-align: center;
@@ -132,12 +134,10 @@ p.mbs, .dashboard p {
 	width: 80%;
 }
 
-div.check {
-	display: inline-block;
-	width: 10%;
-}
 
-div.check, div.add-item div {
+div.check, div.add-item-icon {
+	width: 10%;
+	display: inline-block;
 	float: right;
 	height: 100%;
 	margin-left: 15px;

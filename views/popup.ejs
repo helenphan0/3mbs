@@ -1,0 +1,31 @@
+<!-- views/popup.ejs -->
+
+
+    <div class="box nasa hidden">
+      <div class="nasa-box">
+          <% if (picture) { %>
+            <h3 id="apod_title"><%= picture.title %></h3>
+            <div class="nasa-img">
+              <img id="apod_img_id" src="<%= picture.url %>">
+           <!--  <iframe id="apod_vid_id" type="text/html" width="640" height="385" frameborder="0"></iframe> -->
+           </div>
+            <p id="photo-date"><%= picture.date %></p>
+            <p id="apod_explanation"><%= picture.explanation %></p>
+            <form><button type="button" name="picture" value="<%= picture %>" formmethod="post" formaction=" ">Save</button></form>
+          <% } %>
+      </div>
+  </div>
+
+
+
+<!-- <div class="grey-out youtube hidden"> -->
+    <div class="box youtube hidden">   
+      <div class="youtube-box">
+            <% if (video) { %>
+            <iframe id="workout-vid" width="560" height="315" frameborder="0" src="https://www.youtube.com/embed/<%= video.id.videoId %>?html5=1" allowfullscreen></iframe>
+            <p class="titleYT"><%= video.snippet.title %></p></a>
+            <% } %>
+            <form><button type="button" name="video" value="<%= video %>" formmethod="post" formaction=" ">Save</button></form>
+      </div>
+  </div>
+<!-- </div> -->
