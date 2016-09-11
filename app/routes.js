@@ -1,5 +1,8 @@
 // app/routes.js
 
+// load up models
+var models = require('../app/models/user-model');
+
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
@@ -7,11 +10,113 @@ function getRandom(min, max) {
 var ytURL = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=35&';
 ytURL += 'q=5-min+workout+easy&key=AIzaSyDnahmSz7sdcFj_jMe6pb-P5vPxdO9Me2A&r=json';
 
+function todayIs() {
+  var month = new Date().getMonth();
+  var day = new Date().getDate();
+  month = month < 10 ? '0' + month : month;
+  day = day < 10 ? '0' + day : day;
+  var year = new Date().getFullYear();
+  var date = month + "-" + day + "-" + year;
+  return date;
+};
 
-// load up models
-var models = require('../app/models/user-model');
+function Completions(day) {
+    this.day = day;
+    this.Mind = 0;
+    this.Body = 0;
+    this.Soul = 0;
+}; 
 
-module.exports = function(app, passport, unirest) {
+var todayDate;
+
+var createDaily = function() {
+    var dailies = new models.Dailies();
+    dailies.day = todayDate;
+
+    models.Mind.random(function(err, mind) {
+        var mind1 = mind;
+        dailies.MindActivities.push(mind1.activity);
+        models.Mind.random(function(err, mind) {
+            console.log('second mind activity: ' + mind);
+            var mind2 = mind;
+            if ( dailies.MindActivities[0] == mind2.activity) {
+                models.Mind.random(function(err, mind) {
+                    console.log('another mind option: ' + mind);
+                    mind2 = mind;
+                });
+            };
+            dailies.MindActivities.push(mind2.activity);
+            console.log(dailies.MindActivities);
+        });
+        models.Body.random(function(err, body) {
+            var body1 = body;
+            dailies.BodyActivities.push(body1.activity);
+            models.Body.random(function(err, body) {
+                console.log('second body activity: ' + body);
+                var body2 = body;
+                if ( dailies.BodyActivities[0] == body2.activity) {
+                    models.Body.random(function(err, body) {
+                        console.log('another body option: ' + body);
+                        body2 = body;
+                    });
+                };
+                dailies.BodyActivities.push(body2.activity);
+                console.log(dailies.BodyActivities);
+            });
+            models.Soul.random(function(err, soul) {
+                var soul1 = soul;
+                dailies.SoulActivities.push(soul1.activity);
+                models.Soul.random(function(err, soul) {
+                    console.log('second soul activity: ' + soul);
+                    var soul2 = soul;
+                    if ( dailies.SoulActivities[0] == soul2.activity) {
+                        models.Soul.random(function(err, soul) {
+                            console.log('another soul option: ' + soul);
+                            soul2 = soul;
+                        });
+                    };
+                    dailies.SoulActivities.push(soul2.activity);
+                    console.log(dailies.SoulActivities);
+
+                    dailies.save(function(err) {
+                        if (err) {
+                            res.status(500);
+                        }
+                        console.log(todayDate + "'s daily saved: ");
+                        console.log(dailies);
+                        return dailies;
+                    });
+                });
+            // models.Soul close    
+            }); 
+
+        // models.Body close    
+        }); 
+    // models.Mind close    
+    });
+
+// createDaily function close    
+};
+
+var daily;
+
+module.exports = function(app, passport, unirest) { 
+    todayDate = todayIs();
+
+    models.Dailies.findOne({day: todayDate}, function(err, dailies) {
+        if (err) {
+            return res.status(500);
+        }
+
+        if (dailies) {
+            daily = dailies;
+        }
+
+        else {
+            daily = createDaily();
+            console.log(daily);
+        }
+    });
 
 
     // =====================================
@@ -65,12 +170,22 @@ module.exports = function(app, passport, unirest) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/main', isLoggedIn, function(req, res) {
+   
+        var completed = new Completions(todayDate);
+        console.log('logged in as: ' + req.user.local.nickname);
+        console.log(daily);
+
         res.render('main.ejs', {
             user : req.user, // get the user of the session and pass to template
             video: '', 
-            picture: ''
+            picture: '',
+            completed: completed,
+            dailies: daily
         });
 
+        app.get('/main/mindComplete', function(req, res) {
+            
+        });
 
         // ===================
 
@@ -81,27 +196,28 @@ module.exports = function(app, passport, unirest) {
                         return res.status(500);
                     }
 
+                    if (req.body.mindvalue == '') {
+                        return false;
+                    }
+
                     if (mind) {
-                        console.log(req.body.mindvalue + ' already exists');
+                        console.log(mind.activity + ' already exists');
                         return res.status(200).json(null);
                     }
 
                     else {
                         var mind = new models.Mind();
                         mind.activity = req.body.mindvalue;
-                        console.log(mind);
-                        console.log('-------------');
                     }
         
                     mind.save(function(err) {
                             if (err) {
                                 res.status(500);
                             }
-                            console.log('saved activity: ' + mind);
+                            console.log('saved activity for mind: ' + mind.activity);
                             return res.redirect('/main');
                         });
                 });
-
         });
 
         // ===================
@@ -113,27 +229,28 @@ module.exports = function(app, passport, unirest) {
                         return res.status(500);
                     }
 
+                    if (req.body.bodyvalue == '') {
+                        return false;
+                    }
+
                     if (body) {
-                        console.log(req.body.bodyvalue + ' already exists');
+                        console.log(body.activity + ' already exists');
                         return res.status(200).json(null);
                     }
 
                     else {
                         var body = new models.Body();
                         body.activity = req.body.bodyvalue;
-                        console.log(body);
-                        console.log('-------------');
                     }
 
                     body.save(function(err) {
                             if (err) {
                                 res.status(500);
                             }
-                            console.log('saved activity: ' + body);
+                            console.log('saved activity for body: ' + body.activity);
                             return res.redirect('/main');
                         });
                 });
-
         });
     
         // ===================
@@ -146,28 +263,29 @@ module.exports = function(app, passport, unirest) {
                         return res.status(500);
                     }
 
+                    if (req.body.soulvalue == '') {
+                        return false;
+                    }
+
                     if (soul) {
-                        console.log(req.body.soulvalue + ' already exists');
+                        console.log(soul.activity + ' already exists');
                         return res.status(200).json(null);
                     }
 
                     else {
                         var soul = new models.Soul();
                         soul.activity = req.body.soulvalue;
-                        console.log(soul);
-                        console.log('-------------');
                     }
                     
                     soul.save(function(err) {
                             if (err){
                                 res.status(500);
                             }
-                            console.log('saved activity: ' + soul);
+                            console.log('saved activity for soul: ' + soul.activity);
                             return res.redirect('/main');
                         });
                 });
         });
-
 
         // ======================================
 
@@ -179,38 +297,45 @@ module.exports = function(app, passport, unirest) {
                     console.log(x);
                     var item = response.body.items[x];
                     console.log(item);
-                    res.render('main.ejs', {user: req.user, picture: '', video: item});
+                    res.render('youtube.ejs', {user: req.user, picture: '', video: item, completed: completed, dailies: daily});
                     res.end();
                 }
                 else {
                     res.status(500);
                 }
             }); 
+
+            app.get('/back', function(req, res){
+                res.redirect('/main');
+            });
          });
 
          // ======================================
-        app.get('/nasa', function(req, res) {
+        app.get('/main/nasa', function(req, res) {
             var url = "https://api.nasa.gov/planetary/apod?api_key=ul1h9pBDxKXZasQ7crI3gqduqlnms2VTs5w683FI";
             unirest.get(url)
                  .end(function(response) {
                     if (response.ok) {
                         var picture = response.body;
-                        res.render('main.ejs', {user: req.user, picture: picture, video: ''});
+                        res.render('nasa.ejs', {user: req.user, picture: picture, video: '', completed: completed, dailies: daily});
                     }
                     else {
                         res.status(500);
                     }
                 });
-
+            app.get('/back', function(req, res){
+                res.redirect('main');
+            });
         });
-
     });
     
     // =====================================
     // FACEBOOK ROUTES =====================
     // =====================================
     // route for facebook authentication and login
-    app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    // add permissions to scope array for additional fields
+    // profile field access is grouped by permission sets, see https://developers.facebook.com/docs/facebook-login/permissions
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email', 'public_profile', 'publish_actions'] }));
 
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
@@ -219,7 +344,7 @@ module.exports = function(app, passport, unirest) {
             failureRedirect : '/'
         }));
 
-     // =====================================
+    // =====================================
     // GOOGLE ROUTES =======================
     // =====================================
     // send to google to do the authentication
@@ -238,7 +363,6 @@ module.exports = function(app, passport, unirest) {
 
 
 */
-
 
     // =====================================
     // LOGOUT ==============================

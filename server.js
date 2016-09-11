@@ -17,7 +17,7 @@ mongoose.connect(configDB.url);
 
 require('./config/passport')(passport);
 
-app.use(express.static('public'));    // show index.html
+app.use(express.static('public'));   
 
 app.use(cookieParser());
 app.use(bodyParser());

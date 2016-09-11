@@ -1,6 +1,13 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
+var DailiesSchema = new mongoose.Schema({
+    day: String,
+    MindActivities: [],
+    BodyActivities: [],
+    SoulActivities: []
+});
+
 var UserSchema = new mongoose.Schema({  
 
     local            : {
@@ -21,7 +28,7 @@ var UserSchema = new mongoose.Schema({
         name         : String
     },
     completion       : [
-        { day: Date, Mind: Number, Body: Number, Soul: Number}
+        { day: String, Mind: Number, Body: Number, Soul: Number}
     ],
     favorites        : Array
 });
@@ -29,6 +36,30 @@ var UserSchema = new mongoose.Schema({
 var MindSchema = new mongoose.Schema( {activity: String});
 var BodySchema = new mongoose.Schema( {activity: String});
 var SoulSchema = new mongoose.Schema( {activity: String});
+
+MindSchema.statics.random = function(callback) {
+  this.count(function(err, count) {
+    if (err) return callback(err);
+    var rand = Math.floor(Math.random() * count);
+    this.findOne().skip(rand).exec(callback);
+  }.bind(this));
+};
+
+BodySchema.statics.random = function(callback) {
+  this.count(function(err, count) {
+    if (err) return callback(err);
+    var rand = Math.floor(Math.random() * count);
+    this.findOne().skip(rand).exec(callback);
+  }.bind(this));
+};
+
+SoulSchema.statics.random = function(callback) {
+  this.count(function(err, count) {
+    if (err) return callback(err);
+    var rand = Math.floor(Math.random() * count);
+    this.findOne().skip(rand).exec(callback);
+  }.bind(this));
+};
 
 // generating a hash
 UserSchema.methods.generateHash = function(password) {
@@ -41,13 +72,15 @@ UserSchema.methods.validPassword = function(password) {
 };
 
 var Mind = mongoose.model('Mind', MindSchema, 'minds');
-var Body = mongoose.model('Body', UserSchema, 'bodies');
-var Soul = mongoose.model('Soul', MindSchema, 'souls');
+var Body = mongoose.model('Body', BodySchema, 'bodies');
+var Soul = mongoose.model('Soul', SoulSchema, 'souls');
 var User = mongoose.model('User', UserSchema, 'users');
+var Dailies = mongoose.model('Dailies', DailiesSchema, 'dailies');
 
 module.exports = {
     User: User,
     Mind: Mind,
     Body: Body,
-    Soul: Soul
+    Soul: Soul,
+    Dailies: Dailies
 }
