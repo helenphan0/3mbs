@@ -32,7 +32,6 @@ module.exports = function(passport) {
         });
     });
 
-
     // =========================================================================
     // LOCAL LOGIN =============================================================
     // =========================================================================
@@ -65,11 +64,7 @@ module.exports = function(passport) {
             // all is well, return successful user
             return done(null, user);
         });
-
     }));
-
- // };
-
 
     // =========================================================================
     // LOCAL SIGNUP ============================================================
@@ -118,14 +113,11 @@ module.exports = function(passport) {
                             throw err;
                         return done(null, newUser);
                     });
-                }
-
+                };
             });    
-
         });
-
     }));
-//
+
 
  // =========================================================================
     // GOOGLE ==================================================================
@@ -174,9 +166,6 @@ module.exports = function(passport) {
 
     }));
 
-// };
-
-
   // =========================================================================
     // FACEBOOK ================================================================
     // =========================================================================
@@ -217,10 +206,9 @@ module.exports = function(passport) {
                     newUser.facebook.id    = profile.id; // set the users facebook id                   
                     newUser.facebook.token = token; // we will save the token that facebook provides to the user                    
                     newUser.facebook.name  = profile.name.givenName; // look at the passport user profile to see how names are returned
-                    console.log(profile);
-                    console.log(profile.displayName);
-                    console.log(profile.name.givenName);
                     newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+                    console.log('facebook profile retrieved');
+                    console.log(profile);
 
                     // save our user to the database
                     newUser.save(function(err) {
@@ -230,11 +218,8 @@ module.exports = function(passport) {
                         // if successful, return the new user
                         return done(null, newUser);
                     });
-                }
-
+                };
             });
         });
-
     }));
-
 };

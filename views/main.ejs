@@ -32,7 +32,6 @@
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
-
 <main>
 <section class="dashboard">
     <div><% if (user) { %>
@@ -45,7 +44,7 @@
       <div class="add-item"><div class="add-item-text">Add your own activity </div><div class="add-item-icon"><i class="fa fa-pencil-square" aria-hidden="true"></i></div></div>
 
       <div class="add-entry">
-        <form id="mindform" action="/addMind" method="post">
+        <form class="mindform" id="mindform" action="/addMind" method="post">
           <input name="mindvalue" class="mindvalue" type="text">
           <button type="submit">Add <i class="fa fa-graduation-cap" aria-hidden="true"></i></button>
         </form>
