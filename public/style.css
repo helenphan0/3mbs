@@ -12,14 +12,16 @@ body {
 
 div.add-item {
 	height: 48px;
-	width: 80%;
+	width: 60%;
 	margin: auto;
 	padding: 7px;
 	font-size: 20px;
+	cursor: pointer;
 }
 
 div.add-item-text {
 	width: 70%;
+	text-align: left;
 	overflow: hidden;
 	display: inline-block;
 }
@@ -108,6 +110,7 @@ ul {
 
 p.past-activities {
 	margin: 2px auto;
+	cursor: pointer;
 }
 
 .form {
@@ -152,7 +155,15 @@ div.check, div.add-item-icon {
 	height: 100%;
 	margin-left: 15px;
 	font-size: 25px;
+	cursor: pointer;
+}
 
+div.check:hover {
+	color: green;
+}
+
+a:visited {
+	color: black;
 }
 
 .grey-out {
@@ -194,4 +205,15 @@ div.check, div.add-item-icon {
 	border-radius: 6px;
 	overflow: hidden;
   	text-overflow: ellipsis;
+}
+
+span.completed-item {
+	color: green;
+	text-decoration: none;
+
+}
+
+.marked {
+	font-style: italic;
+	color: gray;
 }

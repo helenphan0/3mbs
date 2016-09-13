@@ -11,7 +11,7 @@ $(document).ready(function() {
 		$('input').val = '';
 	});
 
-	$('div.add-item-icon').click(function(){
+	$('div.add-item').click(function(){
 		$('div.add-entry').slideToggle();
 	});
 
@@ -24,6 +24,8 @@ $(document).ready(function() {
 		var item = {
 			activity: ''
 		};
+		$(this).parent().find('span').toggleClass('hidden');
+		$(this).parent().children('div').toggleClass('marked');
 		var text = $(this).parent().children('div').html();
 		item.activity = text;
 		$.ajax('/mindComplete', {
@@ -44,7 +46,7 @@ $(document).ready(function() {
 		};
 		var text = $(this).parent().children('div').html();
 		item.activity = text;
-		$.ajax('/main/bodyComplete', {
+		$.ajax('/bodyComplete', {
 	        type: 'POST',
 	        data: JSON.stringify(item),
 	        dataType: 'json',
@@ -73,15 +75,23 @@ $(document).ready(function() {
 		});
 	});
 
+	$('.nasaComplete').click(function() {
+		console.log('nasa option clicked');
+		$.ajax('/main/nasa', {
+	        type: 'GET',
+	        data: JSON.stringify('data'),
+	        dataType: 'json',
+	        contentType: 'application/json'
+    	})
+    	.done(function(){
+    		// button disable?
+		});
+	});
+
 
 /*
 
-	$('div.nasa-selection').on('click', '.check', function() {
-		console.log('nasa option clicked');
-	//	$('div.grey-out.nasa').fadeIn(300);
-    //    $('div.box.nasa').fadeIn(300);
-        $('.nasa-box').show();
-	});
+
 
 	$('div.youtube-selection').on('click', '.check', function() {
 		console.log('5-min workout selection');

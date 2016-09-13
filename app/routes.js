@@ -11,7 +11,7 @@ var ytURL = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=vide
 ytURL += 'q=5-min+workout+easy&key=AIzaSyDnahmSz7sdcFj_jMe6pb-P5vPxdO9Me2A&r=json';
 
 function todayIs() {
-  var month = new Date().getMonth();
+  var month = new Date().getMonth() + 1;
   var day = new Date().getDate();
   month = month < 10 ? '0' + month : month;
   day = day < 10 ? '0' + day : day;
@@ -234,7 +234,7 @@ module.exports = function(app, passport, unirest) {
             });  
         });
 
-        app.post('/main/bodyComplete', function(req, res) {
+        app.post('/bodyComplete', function(req, res) {
             req.user.completion[0].Body += 1;
                 
             console.log('body activity update successful');
@@ -266,19 +266,19 @@ module.exports = function(app, passport, unirest) {
                     res.status(500);
                 }
                 console.log('user activity updated');
-                return res.redirect('/main');
+            //    return res.redirect('/main');
                 
             });
 //            
-/*
-            res.render('main.ejs', {
+
+            return res.render('main.ejs', {
                     user : req.user, 
                     video: '', 
                     picture: '',
                     completed: completed,
                     dailies: daily
                 });
-                */
+                
         });
       
 
