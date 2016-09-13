@@ -11,11 +11,11 @@ body {
 }
 
 div.add-item {
-	height: 50px;
-	width: 90%;
+	height: 48px;
+	width: 80%;
 	margin: auto;
 	padding: 7px;
-	font-size: 22px;
+	font-size: 20px;
 }
 
 div.add-item-text {
@@ -98,6 +98,16 @@ form>p {
 	margin: 20px;
 	font-size: 30px;
 	border: 1px solid lightgray;
+}
+
+ul {
+	list-style-type: none;
+	display: none;
+	padding-left: 1px
+}
+
+p.past-activities {
+	margin: 2px auto;
 }
 
 .form {

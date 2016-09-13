@@ -22,9 +22,9 @@ function todayIs() {
 
 function Completions(day) {
     this.day = day;
-    this.Mind = [0,0,0],
-    this.Body = [0,0,0],
-    this.Soul = [0,0,0]
+    this.Mind = 0,
+    this.Body = 0,
+    this.Soul = 0
 }; 
 
 var todayDate;
@@ -97,14 +97,10 @@ var createDaily = function() {
                         daily = dailies;
                         return daily;
                     });
-                });
-            // models.Soul close    
+                }); 
             }); 
-        // models.Body close    
         }); 
-    // models.Mind close    
     });
-// createDaily function close    
 };
 
 
@@ -124,6 +120,7 @@ module.exports = function(app, passport, unirest) {
             daily = createDaily();
             console.log('------ new daily generated ------');
             console.log(daily);
+            console.log('------ ------------------- ------');
         }
     return daily;
     });
@@ -184,21 +181,111 @@ module.exports = function(app, passport, unirest) {
         var completed = new Completions(todayDate);
         console.log('---------  the dailies for today ----------');
         console.log(daily);
+        console.log('---------  --------------------- ----------');
+
+    //  for new users, create a daily record for today
+    //  for existing user, check if most recent daily is today's, 
+    //  if not, add today's daily to their record
+        if (req.user.completion.length == 0 || req.user.completion[0].day != daily.day) {
+            req.user.completion.unshift(completed);
+          //  console.log(req.user);
+        }
+
+        req.user.save(function(err) {
+            if (err){
+                res.status(500);
+            }
+            console.log('user saved, view their daily');
+            console.log(req.user.completion[0]);
+            return;
+        });
 
         res.render('main.ejs', {
-            user : req.user, // get the user of the session and pass to template
+            user : req.user, 
             video: '', 
             picture: '',
             completed: completed,
             dailies: daily
         });
 
-        app.get('/main/mindComplete', function(req, res) {
-            
+
+     //   user activity completions are tracked and saved here
+     //   only the number of completions tracked (v1)
+     //   v2 - track the actual completion activity
+
+        app.post('/mindComplete', function(req, res) {
+            req.user.completion[0].Mind += 1;
+                
+            console.log('mind activity update successful');
+            console.log(req.user.completion[0].Mind);
+       
+            req.user.save(function(err) {
+                if (err) {
+                    res.status(500);
+                }
+                console.log('user activity updated');
+                res.render('main.ejs', {
+                    user : req.user, 
+                    video: '', 
+                    picture: '',
+                    completed: completed,
+                    dailies: daily
+                });
+            });  
         });
 
-        // ===================
+        app.post('/main/bodyComplete', function(req, res) {
+            req.user.completion[0].Body += 1;
+                
+            console.log('body activity update successful');
+            console.log(req.user.completion[0].Body);
+       
+            req.user.save(function(err) {
+                if (err) {
+                    res.status(500);
+                }
+                console.log('user activity updated');
+                return res.render('main.ejs', {
+                    user : req.user, 
+                    video: '', 
+                    picture: '',
+                    completed: completed,
+                    dailies: daily
+                });
+            });  
+        });
 
+        app.post('/soulComplete', function(req, res) {
+            req.user.completion[0].Soul += 1;
+                
+            console.log('soul activity update successful');
+            console.log(req.user.completion[0].Soul);
+       
+            req.user.save(function(err) {
+                if (err) {
+                    res.status(500);
+                }
+                console.log('user activity updated');
+                return res.redirect('/main');
+                
+            });
+//            
+/*
+            res.render('main.ejs', {
+                    user : req.user, 
+                    video: '', 
+                    picture: '',
+                    completed: completed,
+                    dailies: daily
+                });
+                */
+        });
+      
+
+        //  user created activities are saved here
+        //  daily activities will pull from same collection
+
+        // ===================
         app.post('/addMind', function(req, res) {
                 models.Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
 
@@ -225,14 +312,12 @@ module.exports = function(app, passport, unirest) {
                                 res.status(500);
                             }
                             console.log('saved activity for mind: ' + mind.activity);
-                            return res.status(200);
-                            //res.redirect('/main');
+                            return res.redirect('/main');
                         });
                 });
         });
 
         // ===================
-
         app.post('/addBody', function(req, res) {
                 models.Body.findOne({ activity: req.body.bodyvalue}, function(err, mind) {
 
@@ -265,9 +350,7 @@ module.exports = function(app, passport, unirest) {
         });
     
         // ===================
-
         app.post('/addSoul', function(req, res) {
-
                 models.Soul.findOne({ activity: req.body.soulvalue}, function(err, mind) {
 
                     if (err) {
@@ -299,7 +382,6 @@ module.exports = function(app, passport, unirest) {
         });
 
         // ======================================
-
          app.get('/main/youtube', function(req, res) {
             unirest.get(ytURL)
             .end(function(response) {
@@ -321,7 +403,7 @@ module.exports = function(app, passport, unirest) {
             });
          });
 
-         // ======================================
+        // ======================================
         app.get('/main/nasa', function(req, res) {
             var url = "https://api.nasa.gov/planetary/apod?api_key=ul1h9pBDxKXZasQ7crI3gqduqlnms2VTs5w683FI";
             unirest.get(url)
@@ -345,7 +427,7 @@ module.exports = function(app, passport, unirest) {
     // =====================================
     // route for facebook authentication and login
     // add permissions to scope array for additional fields
-    // profile field access is grouped by permission sets, see https://developers.facebook.com/docs/facebook-login/permissions
+    // 'public_profile' SHOULD be added to the scope, contrary to facebook developer documentation
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email', 'public_profile', 'publish_actions'] }));
 
     // handle the callback after facebook has authenticated the user
@@ -372,9 +454,7 @@ module.exports = function(app, passport, unirest) {
 /*
 
 
-
 */
-
     // =====================================
     // LOGOUT ==============================
     // =====================================

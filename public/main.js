@@ -7,7 +7,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('form').submit(function() {
+	$('button').click(function() {
 		$('input').val = '';
 	});
 
@@ -15,8 +15,67 @@ $(document).ready(function() {
 		$('div.add-entry').slideToggle();
 	});
 
+	$('p.past-activities').click(function() {
+		$('ul').slideToggle();
+	});
+
+	$('.mindComplete').click(function() {
+		console.log('mindComplete clicked');
+		var item = {
+			activity: ''
+		};
+		var text = $(this).parent().children('div').html();
+		item.activity = text;
+		$.ajax('/mindComplete', {
+	        type: 'POST',
+	        data: JSON.stringify(item),
+	        dataType: 'json',
+	        contentType: 'application/json'
+    	})
+    	.done(function(){
+    		// button disable?
+		});
+	});
+
+	$('.bodyComplete').click(function() {
+		console.log('bodyComplete clicked');
+		var item = {
+			activity: ''
+		};
+		var text = $(this).parent().children('div').html();
+		item.activity = text;
+		$.ajax('/main/bodyComplete', {
+	        type: 'POST',
+	        data: JSON.stringify(item),
+	        dataType: 'json',
+	        contentType: 'application/json'
+    	})
+    	.done(function(){
+    		// button disable?
+		});
+	});
+
+	$('.soulComplete').click(function() {
+		console.log('soulComplete clicked');
+		var item = {
+			activity: ''
+		};
+		var text = $(this).parent().children('div').html();
+		item.activity = text;
+		$.ajax('/soulComplete', {
+	        type: 'POST',
+	        data: JSON.stringify(item),
+	        dataType: 'json',
+	        contentType: 'application/json'
+    	})
+    	.done(function(){
+    		// button disable?
+		});
+	});
+
 
 /*
+
 	$('div.nasa-selection').on('click', '.check', function() {
 		console.log('nasa option clicked');
 	//	$('div.grey-out.nasa').fadeIn(300);
@@ -24,30 +83,12 @@ $(document).ready(function() {
         $('.nasa-box').show();
 	});
 
-
 	$('div.youtube-selection').on('click', '.check', function() {
 		console.log('5-min workout selection');
 	//	$('div.grey-out.youtube').fadeIn(300);
     //    $('div.box.youtube').fadeIn(300);
 		$('.youtube-box').show();
 	});
-
-	$(document).bind('keydown',function(e){
-	  if ( e.which == 27 ) {
-	     $('.box').fadeOut(1000);
-	     $('.grey-out').fadeOut(1000);
-	     $('.nasa-box').hide();
-	     $('.youtube-box').hide();
-	  };
-	});
-
-  	$('.grey-out').click(function() {
-  		$('.box').fadeOut(300);
-	    $('.grey-out').fadeOut(300);
-	    $('.nasa-box').hide();
-	    $('.youtube-box').hide();
-  	});
-	
 
 */
 

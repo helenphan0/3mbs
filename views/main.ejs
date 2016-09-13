@@ -35,30 +35,31 @@
 <main>
 <section class="dashboard">
     <div><% if (user) { %>
-      <p>Welcome, <%= user.local.nickname %><%= user.facebook.name %><%= user.google.name %>!</p>
+      <p>Welcome, <%= user.local.nickname %><%= user.facebook.name %><%= user.google.name %>! Today's date is: <%= dailies.day %></p>
       <% } %>
-      <p>You have completed the following</p>
-      <div class="db-item"><%= completed.Mind %> <i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
-      <div class="db-item"><%= completed.Body %> <i class="fa fa-bicycle" aria-hidden="true"></i></div>
-      <div class="db-item"><%= completed.Soul %> <i class="fa fa-heart" aria-hidden="true"></i></div>
+      <p>You have completed the following today</p>
+      <div class="db-item"><%= user.completion[0].Mind %> <i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
+      <div class="db-item"><%= user.completion[0].Body %> <i class="fa fa-bicycle" aria-hidden="true"></i></div>
+      <div class="db-item"><%= user.completion[0].Soul %> <i class="fa fa-heart" aria-hidden="true"></i></div> 
       <div class="add-item"><div class="add-item-text">Add your own activity </div><div class="add-item-icon"><i class="fa fa-pencil-square" aria-hidden="true"></i></div></div>
 
       <div class="add-entry">
         <form class="mindform" id="mindform" action="/addMind" method="post">
           <input name="mindvalue" class="mindvalue" type="text">
-          <button type="submit">Add <i class="fa fa-graduation-cap" aria-hidden="true"></i></button>
+          <button form="mindform" type="submit">Add <i class="fa fa-graduation-cap" aria-hidden="true"></i></button>
         </form>
         <form id="bodyform" action="/addBody" method="post">
           <input name="bodyvalue" class="bodyvalue" type="text">
-          <button type="submit">Add <i class="fa fa-bicycle" aria-hidden="true"></i></button>
+          <button form="bodyform" type="submit">Add <i class="fa fa-bicycle" aria-hidden="true"></i></button>
         </form>
         <form id="soulform" action="/addSoul" method="post">
           <input name="soulvalue" class="soulvalue" type="text">
-            <button  type="submit">Add <i class="fa fa-heart" aria-hidden="true"></i></button>
+            <button form="soulform" type="submit">Add <i class="fa fa-heart" aria-hidden="true"></i></button>
         </form>
       </div>
-
-      <div class="profile">Edit your profile</div>
+      <div><p class="past-activities">Past Activities <i class="fa fa-files-o" aria-hidden="true"></i></p><ul><% for (var i = 0; i< user.completion.length; i++) {%>
+      <li><%= user.completion[i].day %>: <%= user.completion[i].Mind %> Mind <%= user.completion[i].Body %> Body <%= user.completion[i].Soul %> Soul  </li>
+      <!-- <div class="profile">Edit your profile</div> --><% } %></ul></div>
       <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
   </section>
@@ -68,12 +69,12 @@
       <p class="mbs">Mind <i class="fa fa-graduation-cap" aria-hidden="true"></i></p>
       <div class="options">
         <div class="selection">
-          <div class="selection-text mind1"><%= dailies.MindActivities[0] %> <span class="completed-item"></span></div>
-          <a href="/main/mindComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
+          <div class="selection-text mind1"><%= dailies.MindActivities[0] %></div>
+          <a class="mindComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
         </div>
         <div class="selection">
           <div class="selection-text mind2"><%= dailies.MindActivities[1] %> <span class="completed-item"></span></div>
-          <a href="/main/mindComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
+          <a class="mindComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
         </div>
         <div class="selection nasa-selection">
           <div class="selection-text mind3">Check out NASA's photo of the day <span class="completed-item"></span>
@@ -88,11 +89,11 @@
       <div class="options">
         <div class="selection">
           <div class="selection-text body1"><%= dailies.BodyActivities[0] %> <span class="completed-item"></span></div>
-          <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
+          <a class="bodyComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
         </div>
         <div class="selection">
           <div class="selection-text body2"><%= dailies.BodyActivities[1] %> <span class="completed-item"></span></div>
-          <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
+          <a class="bodyComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
         </div>
         <div class="selection youtube-selection">
           <div class="selection-text body3">Do a 5-minute workout <span class="completed-item"></span></div>
@@ -105,19 +106,19 @@
       <p class="mbs">Soul <i class="fa fa-heart" aria-hidden="true"></i></p>
       <div class="options">
         <div class="selection">
-            <div class="selection-text soul1"><%= dailies.SoulActivities[0] %> <span class="completed-item"></span>
-            </div>
-          <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
+          <div class="selection-text soul1"><%= dailies.SoulActivities[0] %> <span class="completed-item"></span>
+          </div>
+          <a class="soulComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
           </div>
         <div class="selection">
-            <div class="selection-text soul2"><%= dailies.SoulActivities[1] %> <span class="completed-item"></span>
-            </div>
-          <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
+          <div class="selection-text soul2"><%= dailies.SoulActivities[1] %> <span class="completed-item"></span>
+          </div>
+          <a class="soulComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
           </div>
         <div class="selection">
           <div class="selection-text soul3">Hug your pet <span class="completed-item"></span>
           </div>
-        <div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></div>
+          <a class="soulComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></div></a>
       </div>
     </div>
   </section>

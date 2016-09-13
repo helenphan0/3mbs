@@ -5,23 +5,7 @@ module.exports = {
 };
 
 /*
-var mSelections = {
-	mind1: '',
-	mind2: '',
-	mind3: ''
-}; 
 
-var bSelections = {
-	body1: '',
-	body2: '',
-	body3: ''
-};
-
-var sSelections = {
-	soul1: '',
-	soul2: '',
-	soul3: ''
-};
 
 var mActivities = [
 	{ text: 'Get updated on the news' },
@@ -31,8 +15,6 @@ var mActivities = [
 	{ text: "Check out NASA's photo of the day", link: ''},
 	{ text: 'Learn something new from someone in your life', link: ''},
 	{ text: 'Close your eyes and meditate for one minute', link: ''},
-
-
 
 ];
 
