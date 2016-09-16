@@ -22,13 +22,15 @@ function todayIs() {
 
 function Completions(day) {
     this.day = day;
-    this.Mind = 0,
-    this.Body = 0,
-    this.Soul = 0
+    this.Mind = [ 0, 0, 0],
+    this.Body = [ 0, 0, 0],
+    this.Soul = [ 0, 0, 0],
+    this.mtotal = '',
+    this.btotal = '',
+    this.stotal = ''
 }; 
 
 var todayDate;
-
 var daily;
 
 var createDaily = function() {
@@ -50,7 +52,8 @@ var createDaily = function() {
             else {
                 dailies.MindActivities.push(mind2.activity);
             }
-            console.log(dailies.MindActivities);
+            console.log(dailies.MindActivities[0]);
+            console.log(dailies.MindActivities[1]);
         });
 
         models.Body.random(function(err, body) {
@@ -68,7 +71,8 @@ var createDaily = function() {
                 else {
                     dailies.BodyActivities.push(body2.activity);
                 }
-                console.log(dailies.BodyActivities);
+                console.log(dailies.BodyActivities[0]);
+                console.log(dailies.BodyActivities[1]);
             });
 
             models.Soul.random(function(err, soul) {
@@ -76,23 +80,25 @@ var createDaily = function() {
                 dailies.SoulActivities.push(soul1.activity);
                 models.Soul.random(function(err, soul) {
                     var soul2 = soul;
-                    if ( soul1.activity == soul2.activity) {
+                    if ( dailies.SoulActivities[0] == soul2.activity) {
                         models.Soul.random(function(err, soul) {
                             console.log('another soul option: ' + soul);
-                            soul2 = soul;
-                            dailies.SoulActivities.push(soul2.activity);
+                            var soul3 = soul;
                         });
+                        dailies.SoulActivities.push(soul3.activity);
                     }
                     else {
                         dailies.SoulActivities.push(soul2.activity);
                     }
-                    console.log(dailies.SoulActivities);
+                    console.log(dailies.SoulActivities[0]);
+                    console.log(dailies.SoulActivities[1]);
 
                     dailies.save(function(err) {
                         if (err) {
                             res.status(500);
                         }
                         console.log(todayDate + "'s daily saved: ");
+                        console.log('-------------------------------')
                         console.log(dailies);
                         daily = dailies;
                         return daily;
@@ -112,16 +118,16 @@ module.exports = function(app, passport, unirest) {
             return res.status(500);
         }
 
-        if (dailies) {
-            daily = dailies;
+        if (!dailies) {
+            console.log('------ new daily generated ------');
+            daily = createDaily();
         }
 
         else {
-            daily = createDaily();
-            console.log('------ new daily generated ------');
-            console.log(daily);
-            console.log('------ ------------------- ------');
+            daily = dailies;
+
         }
+//    console.log(daily);    
     return daily;
     });
 
@@ -130,7 +136,7 @@ module.exports = function(app, passport, unirest) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-       res.render('index.ejs'); // load the index.ejs file
+       res.render('index.ejs', { message: req.flash('signupMessage') } ); 
     });
 
     // =====================================
@@ -144,8 +150,6 @@ module.exports = function(app, passport, unirest) {
     });
 
     // process the login form
-    // app.post('/login', do all our passport stuff here);
-
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/main', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
@@ -163,8 +167,6 @@ module.exports = function(app, passport, unirest) {
     });
 
     // process the signup form
-    // app.post('/signup', do all our passport stuff here);
-
       app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/main', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
@@ -188,7 +190,6 @@ module.exports = function(app, passport, unirest) {
     //  if not, add today's daily to their record
         if (req.user.completion.length == 0 || req.user.completion[0].day != daily.day) {
             req.user.completion.unshift(completed);
-          //  console.log(req.user);
         }
 
         req.user.save(function(err) {
@@ -210,75 +211,58 @@ module.exports = function(app, passport, unirest) {
 
 
      //   user activity completions are tracked and saved here
-     //   only the number of completions tracked (v1)
-     //   v2 - track the actual completion activity
 
         app.post('/mindComplete', function(req, res) {
-            req.user.completion[0].Mind += 1;
-                
+            req.user.completion[0].mtotal += 1;
+            req.user.completion[0].Mind[req.body.index] = req.body.activity;
+        
             console.log('mind activity update successful');
             console.log(req.user.completion[0].Mind);
+            req.user.markModified('completion');
        
             req.user.save(function(err) {
                 if (err) {
                     res.status(500);
                 }
-                console.log('user activity updated');
-                res.render('main.ejs', {
-                    user : req.user, 
-                    video: '', 
-                    picture: '',
-                    completed: completed,
-                    dailies: daily
-                });
+                console.log('user mind activity updated');
+                console.log(req.user.completion[0].Mind);
+                return res.json(req.user).end();
             });  
         });
 
         app.post('/bodyComplete', function(req, res) {
-            req.user.completion[0].Body += 1;
+            console.log(req.body);
+            req.user.completion[0].btotal += 1;
+            req.user.completion[0].Body[req.body.index] = req.body.activity;
                 
             console.log('body activity update successful');
             console.log(req.user.completion[0].Body);
+            req.user.markModified('completion');
        
             req.user.save(function(err) {
                 if (err) {
                     res.status(500);
                 }
-                console.log('user activity updated');
-                return res.render('main.ejs', {
-                    user : req.user, 
-                    video: '', 
-                    picture: '',
-                    completed: completed,
-                    dailies: daily
-                });
+                console.log('user body activity updated');
+                return res.json(req.user).end();
             });  
         });
 
         app.post('/soulComplete', function(req, res) {
-            req.user.completion[0].Soul += 1;
+            req.user.completion[0].stotal += 1;
+            req.user.completion[0].Soul[req.body.index] = req.body.activity;
                 
             console.log('soul activity update successful');
             console.log(req.user.completion[0].Soul);
+            req.user.markModified('completion');
        
             req.user.save(function(err) {
                 if (err) {
                     res.status(500);
                 }
-                console.log('user activity updated');
-            //    return res.redirect('/main');
-                
+                console.log('user soul activity updated');
+                return res.json(req.user).end();
             });
-//            
-
-            return res.render('main.ejs', {
-                    user : req.user, 
-                    video: '', 
-                    picture: '',
-                    completed: completed,
-                    dailies: daily
-                });
-                
         });
       
 
@@ -287,98 +271,98 @@ module.exports = function(app, passport, unirest) {
 
         // ===================
         app.post('/addMind', function(req, res) {
-                models.Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
+            models.Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
 
+                if (err) {
+                    return res.status(500);
+                }
+
+                if (req.body.mindvalue == '') {
+                    return false;
+                }
+
+                if (mind) {
+                    console.log(mind.activity + ' already exists');
+                    return res.status(200).json(null);
+                }
+
+                else {
+                    var mind = new models.Mind();
+                    mind.activity = req.body.mindvalue;
+                }
+    
+                mind.save(function(err) {
                     if (err) {
-                        return res.status(500);
+                        res.status(500);
                     }
-
-                    if (req.body.mindvalue == '') {
-                        return false;
-                    }
-
-                    if (mind) {
-                        console.log(mind.activity + ' already exists');
-                        return res.status(200).json(null);
-                    }
-
-                    else {
-                        var mind = new models.Mind();
-                        mind.activity = req.body.mindvalue;
-                    }
-        
-                    mind.save(function(err) {
-                            if (err) {
-                                res.status(500);
-                            }
-                            console.log('saved activity for mind: ' + mind.activity);
-                            return res.redirect('/main');
-                        });
+                    console.log('saved activity for mind: ' + mind.activity);
+                    return res.redirect('/main');
                 });
+            });
         });
 
         // ===================
         app.post('/addBody', function(req, res) {
-                models.Body.findOne({ activity: req.body.bodyvalue}, function(err, mind) {
+            models.Body.findOne({ activity: req.body.bodyvalue}, function(err, mind) {
 
+                if (err) {
+                    return res.status(500);
+                }
+
+                if (req.body.bodyvalue == '') {
+                    return false;
+                }
+
+                if (body) {
+                    console.log(body.activity + ' already exists');
+                    return res.status(200).json(null);
+                }
+
+                else {
+                    var body = new models.Body();
+                    body.activity = req.body.bodyvalue;
+                }
+
+                body.save(function(err) {
                     if (err) {
-                        return res.status(500);
+                        res.status(500);
                     }
-
-                    if (req.body.bodyvalue == '') {
-                        return false;
-                    }
-
-                    if (body) {
-                        console.log(body.activity + ' already exists');
-                        return res.status(200).json(null);
-                    }
-
-                    else {
-                        var body = new models.Body();
-                        body.activity = req.body.bodyvalue;
-                    }
-
-                    body.save(function(err) {
-                            if (err) {
-                                res.status(500);
-                            }
-                            console.log('saved activity for body: ' + body.activity);
-                            return res.redirect('/main');
-                        });
+                    console.log('saved activity for body: ' + body.activity);
+                    return res.redirect('/main');
                 });
+            });
         });
     
         // ===================
         app.post('/addSoul', function(req, res) {
-                models.Soul.findOne({ activity: req.body.soulvalue}, function(err, mind) {
+            models.Soul.findOne({ activity: req.body.soulvalue}, function(err, mind) {
 
-                    if (err) {
-                        return res.status(500);
-                    }
+                if (err) {
+                    return res.status(500);
+                }
 
-                    if (req.body.soulvalue == '') {
-                        return false;
-                    }
+                if (req.body.soulvalue == '') {
+                    return false;
+                }
 
-                    if (soul) {
-                        console.log(soul.activity + ' already exists');
-                        return res.status(200).json(null);
-                    }
+                if (soul) {
+                    console.log(soul.activity + ' already exists');
+                    return res.status(200).json(null);
+                }
 
-                    else {
-                        var soul = new models.Soul();
-                        soul.activity = req.body.soulvalue;
+                else {
+                    var soul = new models.Soul();
+                    soul.activity = req.body.soulvalue;
+                }
+                
+                soul.save(function(err) {
+                    if (err){
+                        res.status(500);
                     }
-                    
-                    soul.save(function(err) {
-                            if (err){
-                                res.status(500);
-                            }
-                            console.log('saved activity for soul: ' + soul.activity);
-                            return res.redirect('/main');
-                        });
+                    console.log('saved activity for soul: ' + soul.activity);
+                    return res.redirect('/main');
                 });
+            });
         });
 
         // ======================================
@@ -389,19 +373,24 @@ module.exports = function(app, passport, unirest) {
                     var x = getRandom(0, response.body.items.length);
                     console.log(x);
                     var item = response.body.items[x];
-                    console.log(item);
                     res.render('youtube.ejs', {user: req.user, picture: '', video: item, completed: completed, dailies: daily});
-                    res.end();
                 }
                 else {
                     res.status(500);
                 }
             }); 
 
-            app.get('/back', function(req, res){
-                res.redirect('/main');
+            app.get('/return', function(req, res){
+                req.user.completion[0].btotal += 1;
+                req.user.completion[0].Body[2] = "Do a 5-minute workout";
+                req.user.markModified('completion');
+
+                req.user.save(function(err) {
+                    console.log('user saved after youtube vid');
+                    res.redirect('/main');
+                });
             });
-         });
+        });
 
         // ======================================
         app.get('/main/nasa', function(req, res) {
@@ -417,9 +406,58 @@ module.exports = function(app, passport, unirest) {
                     }
                 });
             app.get('/back', function(req, res){
-                res.redirect('main');
+                req.user.completion[0].mtotal += 1;
+                req.user.completion[0].Mind[2] = "Check out NASA's photo of the day";
+                req.user.markModified('completion');
+
+                req.user.save(function(err) {
+                    console.log('user saved after nasa picture');
+                    res.redirect('/main');
+                });
+
             });
         });
+    
+
+        // ======================================
+        // key = 3302183-42e112999fb75a44c5a5ed6b7
+        app.get('/main/pixabay', function(req, res) {
+            var pixurl = "https://pixabay.com/api/?key=3302183-42e112999fb75a44c5a5ed6b7&q=cute+young+animal&";
+            pixurl += 'image_type=photo&orientation=horizontal&category=animal&per_page=60';
+            unirest.get(pixurl)
+                 .end(function(response) {
+                    if (response.ok) {
+                    var z = getRandom(0, response.body.hits.length);
+                    console.log(z);
+                    var hit = response.body.hits[z];
+                    console.log(hit);
+                        res.render('pixabay.ejs', {user: req.user, picture: '', video: '', completed: completed, dailies: daily, pix: hit});
+                    }
+                    else {
+                        res.status(500);
+                    }
+                });
+            app.get('/back', function(req, res){
+                req.user.completion[0].stotal += 1;
+                req.user.completion[0].Soul[2] = "Look at cute animal pictures";
+                req.user.markModified('completion');
+
+                req.user.save(function(err) {
+                    console.log('user saved after pixabay picture');
+                    res.redirect('/main');
+                });
+
+            });
+        });
+
+
+
+
+
+
+
+
+
     });
     
     // =====================================

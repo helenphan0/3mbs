@@ -28,7 +28,14 @@ var UserSchema = new mongoose.Schema({
         name         : String
     },
     completion       : [
-        { day: String, Mind: Number, Body: Number, Soul: Number}
+        {   day: String, 
+            Mind: Array, 
+            Body: Array, 
+            Soul: Array,
+            mtotal: Number,
+            btotal: Number,
+            stotal: Number
+        }
     ],
     favorites        : Array
 });

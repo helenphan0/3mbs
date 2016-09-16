@@ -41,7 +41,7 @@
   <div>
     <h1>3mbs</h1>
     <h3>Take three simple steps a day and improve your life in mind, body, and soul.</h3>
-    <p>Have an account? <a href="/login">Login here</a></p>
+    <p>Have an account? <a class="login" href="/login">Login here</a></p>
 
   </div>
   </section>
@@ -50,6 +50,11 @@
 
     <form id="form" action="/signup" method="post">
       <h4>Create your account</h4>
+      
+          <!-- show any messages that come back with authentication -->
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%= message %></div>
+        <% } %>
   
         <div class="form-group">
             <label for="nickname">Nickname:</label>

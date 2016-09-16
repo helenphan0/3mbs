@@ -22,76 +22,80 @@ $(document).ready(function() {
 	$('.mindComplete').click(function() {
 		console.log('mindComplete clicked');
 		var item = {
-			activity: ''
+			activity: '',
+			index: ''
 		};
-		$(this).parent().find('span').toggleClass('hidden');
 		$(this).parent().children('div').toggleClass('marked');
 		var text = $(this).parent().children('div').html();
+		var id = $(this).parent().data('id');
 		item.activity = text;
+		item.index = id;
 		$.ajax('/mindComplete', {
 	        type: 'POST',
 	        data: JSON.stringify(item),
 	        dataType: 'json',
 	        contentType: 'application/json'
     	})
-    	.done(function(){
-    		// button disable?
+    	.done(function(item){
+    		console.log(item.completion[0].Mind);
+			location.reload();
 		});
+
+
 	});
+
 
 	$('.bodyComplete').click(function() {
 		console.log('bodyComplete clicked');
 		var item = {
-			activity: ''
+			activity: '',
+			index: ''
 		};
+		$(this).parent().children('div').toggleClass('marked');
 		var text = $(this).parent().children('div').html();
+		var id = $(this).parent().data('id');
 		item.activity = text;
+		item.index = id;
 		$.ajax('/bodyComplete', {
 	        type: 'POST',
 	        data: JSON.stringify(item),
 	        dataType: 'json',
 	        contentType: 'application/json'
     	})
-    	.done(function(){
-    		// button disable?
+    	.done(function(item){
+    		console.log(item.completion[0].Body);
+    		location.reload();
 		});
 	});
 
 	$('.soulComplete').click(function() {
 		console.log('soulComplete clicked');
 		var item = {
-			activity: ''
+			activity: '',
+			index: ''
 		};
+		$(this).parent().children('div').toggleClass('marked');
 		var text = $(this).parent().children('div').html();
+		var id = $(this).parent().data('id');
 		item.activity = text;
+		item.index = id;
 		$.ajax('/soulComplete', {
 	        type: 'POST',
 	        data: JSON.stringify(item),
 	        dataType: 'json',
 	        contentType: 'application/json'
     	})
-    	.done(function(){
-    		// button disable?
-		});
-	});
-
-	$('.nasaComplete').click(function() {
-		console.log('nasa option clicked');
-		$.ajax('/main/nasa', {
-	        type: 'GET',
-	        data: JSON.stringify('data'),
-	        dataType: 'json',
-	        contentType: 'application/json'
-    	})
-    	.done(function(){
-    		// button disable?
+    	.done(function(item){
+    		console.log(id);
+    		console.log(item.completion[0].Soul);
+    		location.reload();
 		});
 	});
 
 
+
+	
 /*
-
-
 
 	$('div.youtube-selection').on('click', '.check', function() {
 		console.log('5-min workout selection');

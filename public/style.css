@@ -207,13 +207,12 @@ a:visited {
   	text-overflow: ellipsis;
 }
 
-span.completed-item {
-	color: green;
-	text-decoration: none;
-
+.marked {
+	color: lightgray;
 }
 
-.marked {
-	font-style: italic;
-	color: gray;
+.disable {
+   pointer-events: none;
+   cursor: default;
+   opacity: 0.5;
 }

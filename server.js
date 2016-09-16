@@ -13,6 +13,7 @@ var session = require('express-session');
 var configDB = require('./config/database.js');
 var models = require('./app/models/user-model');
 
+mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 
 require('./config/passport')(passport);

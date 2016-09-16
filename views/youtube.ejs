@@ -7,12 +7,12 @@
  <div class="grey-out youtube"> 
     <div class="box youtube">   
       <div class="youtube-box">
-          <p><a href="/back"><button type="button" name="back">Back</button></a></p>
+          <p><a href="/return"><button type="button" name="back">Back</button></a></p>
             <% if (video) { %>
             <iframe id="workout-vid" width="560" height="315" frameborder="0" src="https://www.youtube.com/embed/<%= video.id.videoId %>?html5=1" allowfullscreen></iframe>
             <p class="titleYT"><%= video.snippet.title %></p></a>
             <% } %>
-            <form><button type="button" name="video" value="<%= video %>" formmethod="post" formaction=" ">Save</button></form>
+        <!--    <form><button type="button" name="video" value="<%= video %>" formmethod="post" formaction=" ">Save</button></form>  -->
       </div>
   </div>
 </div> 
