@@ -4,7 +4,7 @@
   "description": "A website to help improve your life through short, daily activities.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node server.js"
   },
   "author": "Helen Phan",
@@ -23,5 +23,10 @@
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "unirest": "^0.5.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.0.2"
   }
 }
