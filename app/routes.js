@@ -35,6 +35,7 @@ var daily;
 
 var createDaily = function() {
     var dailies = new models.Dailies();
+    todayDate = todayIs();
     dailies.day = todayDate;
 
     models.Mind.random(function(err, mind) {
@@ -111,7 +112,7 @@ var createDaily = function() {
 
 
 module.exports = function(app, passport, unirest) { 
-    todayDate = todayIs();
+    
 
     models.Dailies.findOne({day: todayDate}, function(err, dailies) {
         if (err) {
