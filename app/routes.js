@@ -188,7 +188,7 @@ module.exports = function(app, passport, unirest) {
     //  for new users, create a daily record for today
     //  for existing user, check if most recent daily is today's, 
     //  if not, add today's daily to their record
-        if (req.user.completion.length == 0 || req.user.completion[0].day != daily.day) {
+        if (req.user.completion.length == 0 || req.user.completion[0].day != todayDate) {
             req.user.completion.unshift(completed);
         }
 
@@ -418,45 +418,6 @@ module.exports = function(app, passport, unirest) {
             });
         });
     
-
-        // ======================================
-        // key = 3302183-42e112999fb75a44c5a5ed6b7
-        app.get('/main/pixabay', function(req, res) {
-            var pixurl = "https://pixabay.com/api/?key=3302183-42e112999fb75a44c5a5ed6b7&q=cute+young+animal&";
-            pixurl += 'image_type=photo&orientation=horizontal&category=animal&per_page=60';
-            unirest.get(pixurl)
-                 .end(function(response) {
-                    if (response.ok) {
-                    var z = getRandom(0, response.body.hits.length);
-                    console.log(z);
-                    var hit = response.body.hits[z];
-                    console.log(hit);
-                        res.render('pixabay.ejs', {user: req.user, picture: '', video: '', completed: completed, dailies: daily, pix: hit});
-                    }
-                    else {
-                        res.status(500);
-                    }
-                });
-            app.get('/back', function(req, res){
-                req.user.completion[0].stotal += 1;
-                req.user.completion[0].Soul[2] = "Look at cute animal pictures";
-                req.user.markModified('completion');
-
-                req.user.save(function(err) {
-                    console.log('user saved after pixabay picture');
-                    res.redirect('/main');
-                });
-
-            });
-        });
-
-
-
-
-
-
-
-
 
     });
     
