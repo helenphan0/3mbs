@@ -25,9 +25,9 @@ function Completions(day) {
     this.Mind = [ 0, 0, 0],
     this.Body = [ 0, 0, 0],
     this.Soul = [ 0, 0, 0],
-    this.mtotal = '',
-    this.btotal = '',
-    this.stotal = ''
+    this.mtotal = 0,
+    this.btotal = 0,
+    this.stotal = 0
 }; 
 
 var todayDate;
