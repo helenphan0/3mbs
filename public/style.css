@@ -132,7 +132,7 @@ ul {
 	list-style-type: none;
 	display: none;
 	text-align: left;
-	padding-left: 6%;
+	padding-left: 11%;
 }
 
 div.past-activities-box {
@@ -221,7 +221,6 @@ div.body3 a, div.mind3 a, a:visited {
 	height: 100%;
 	width: 100%;
 	padding: 10px;
-	overflow: auto;
 }
 
 .nasa-img {
@@ -230,8 +229,14 @@ div.body3 a, div.mind3 a, a:visited {
 	overflow: hidden;
 }
 
-#apod_img_id, #apod_vid_id {
-	height: 90%;
+#apod_img_id, #apod_vid_id, #workout-vid {
+	width: 99%; 
+}
+
+p#apod_explanation {
+	padding: 0px 25px;
+	margin-bottom: 22px;
+	text-align: left;
 }
 
 .box {
@@ -245,8 +250,16 @@ div.body3 a, div.mind3 a, a:visited {
 	top: 9%;
 	margin: auto;
 	border-radius: 6px;
-	overflow: hidden;
+	overflow: auto;
   	text-overflow: ellipsis;
+}
+
+button.back, button.return {
+	height: 32px;
+	width: 14%;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 .marked {
@@ -276,5 +289,9 @@ div.body3 a, div.mind3 a, a:visited {
     	margin: 2px;
     	font-size: 18px;
     	width: 25%;
+    }
+
+    ul {
+    	padding-left: 6%;
     }
 }
