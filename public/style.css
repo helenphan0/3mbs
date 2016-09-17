@@ -117,7 +117,6 @@ form>p {
 	min-height: 250px;
 	padding: 20px;
 	border-radius: 7px;
-
 }
 
 .db-item {
@@ -160,26 +159,21 @@ p.past-activities {
 div.mind, div.body, div.soul {
 	height: 25%;
 	font-size: 22px;
-
 }
 
 p.mbs {
 	text-align: center;
 	font-weight: bolder;
 	margin: 15px auto;
+	text-shadow: 2px 2px 4px #000000;
 }
 
 .dashboard p {
 	margin: 5px auto;
 }
 
-a.btn-primary, a.btn-danger {
+p.mbs, a.btn-primary, a.btn-danger {
 	color: white;
-}
-
-p.mbs {
-		color: white;
-	text-shadow: 2px 2px 4px #000000;
 }
 
 .selection {
@@ -193,7 +187,6 @@ p.mbs {
 	width: 80%;
 	padding: 5px 0;
 }
-
 
 div.check, div.add-item-icon {
 	width: 10%;
@@ -210,7 +203,7 @@ div.check:hover {
 	color: #DDD92A;
 }
 
-a:visited {
+div.body3 a, div.mind3 a, a:visited {
 	color: black;
 }
 

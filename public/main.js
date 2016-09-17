@@ -5,7 +5,6 @@ $(document).ready(function() {
 			console.log('empty input');
 			return false
 		};
-
 	});
 
 	$('input.submit.signup').click(function() {
@@ -50,8 +49,6 @@ $(document).ready(function() {
     		console.log(item.completion[0].Mind);
 			location.reload();
 		});
-
-
 	});
 
 
@@ -101,20 +98,5 @@ $(document).ready(function() {
     		location.reload();
 		});
 	});
-
-
-
-	
-/*
-
-	$('div.youtube-selection').on('click', '.check', function() {
-		console.log('5-min workout selection');
-	//	$('div.grey-out.youtube').fadeIn(300);
-    //    $('div.box.youtube').fadeIn(300);
-		$('.youtube-box').show();
-	});
-
-*/
-
 
 });
