@@ -33,105 +33,8 @@ function Completions(day) {
 var todayDate;
 var daily;
 
-var createDaily = function() {
-    var dailies = new models.Dailies();
-    todayDate = todayIs();
-    dailies.day = todayDate;
-
-    models.Mind.random(function(err, mind) {
-        var mind1 = mind;
-        dailies.MindActivities.push(mind1.activity);
-        models.Mind.random(function(err, mind) {
-            var mind2 = mind;
-            if ( dailies.MindActivities[0] == mind2.activity) {
-                models.Mind.random(function(err, mind) {
-                    console.log('another mind option: ' + mind);
-                    mind2 = mind;
-                    dailies.MindActivities.push(mind2.activity);
-                });
-            }
-            else {
-                dailies.MindActivities.push(mind2.activity);
-            }
-            console.log(dailies.MindActivities[0]);
-            console.log(dailies.MindActivities[1]);
-        });
-
-        models.Body.random(function(err, body) {
-            var body1 = body;
-            dailies.BodyActivities.push(body1.activity);
-            models.Body.random(function(err, body) {
-                var body2 = body;
-                if ( dailies.BodyActivities[0] == body2.activity) {
-                    models.Body.random(function(err, body) {
-                        console.log('another body option: ' + body);
-                        body2 = body;
-                        dailies.BodyActivities.push(body2.activity);
-                    });
-                }
-                else {
-                    dailies.BodyActivities.push(body2.activity);
-                }
-                console.log(dailies.BodyActivities[0]);
-                console.log(dailies.BodyActivities[1]);
-            });
-
-            models.Soul.random(function(err, soul) {
-                var soul1 = soul;
-                dailies.SoulActivities.push(soul1.activity);
-                models.Soul.random(function(err, soul) {
-                    var soul2 = soul;
-                    if ( dailies.SoulActivities[0] == soul2.activity) {
-                        models.Soul.random(function(err, soul) {
-                            console.log('another soul option: ' + soul);
-                            var soul3 = soul;
-                        });
-                        dailies.SoulActivities.push(soul3.activity);
-                    }
-                    else {
-                        dailies.SoulActivities.push(soul2.activity);
-                    }
-                    console.log(dailies.SoulActivities[0]);
-                    console.log(dailies.SoulActivities[1]);
-
-                    dailies.save(function(err) {
-                        if (err) {
-                            res.status(500);
-                        }
-                        console.log(todayDate + "'s daily saved: ");
-                        console.log('-------------------------------')
-                        console.log(dailies);
-                        daily = dailies;
-                        return daily;
-                    });
-                }); 
-            }); 
-        }); 
-    });
-};
-
-
 module.exports = function(app, passport, unirest) { 
     
-
-    models.Dailies.findOne({day: todayDate}, function(err, dailies) {
-        if (err) {
-            return res.status(500);
-        }
-
-        if (!dailies) {
-            console.log('------ new daily generated ------');
-            daily = createDaily();
-        }
-
-        else {
-            daily = dailies;
-
-        }
-//    console.log(daily);    
-    return daily;
-    });
-
 
     // =====================================
     // HOME PAGE (with login links) ========
@@ -180,37 +83,135 @@ module.exports = function(app, passport, unirest) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/main', isLoggedIn, function(req, res) {
-   
-        var completed = new Completions(todayDate);
-        console.log('---------  the dailies for today ----------');
-        console.log(daily);
-        console.log('---------  --------------------- ----------');
 
-    //  for new users, create a daily record for today
-    //  for existing user, check if most recent daily is today's, 
-    //  if not, add today's daily to their record
+        todayDate = todayIs();
+        var completed = new Completions(todayDate);
+
+        //  for new users, create a daily record for today
+        //  for existing user, check if most recent daily is today's, 
+        //  if not, add today's daily to their record
         if (req.user.completion.length == 0 || req.user.completion[0].day != todayDate) {
             req.user.completion.unshift(completed);
         }
 
-        req.user.save(function(err) {
-            if (err){
-                res.status(500);
+        models.Dailies.findOne({day: todayDate}, function(err, dailies) {
+
+            console.log('models.Dailies search initiated');
+            if (err) {
+                return res.status(500);
             }
-            console.log('user saved, view their daily');
-            console.log(req.user.completion[0]);
-            return;
+
+            if (!dailies) {
+                console.log('------ No Daily for Today Found ------');
+                var dailies = new models.Dailies();
+                dailies.day = todayDate;
+
+                models.Mind.random(function(err, mind) {
+                    var mind1 = mind;
+                    dailies.MindActivities.push(mind1.activity);
+                    models.Mind.random(function(err, mind) {
+                        var mind2 = mind;
+                        if ( dailies.MindActivities[0] == mind2.activity) {
+                            models.Mind.random(function(err, mind) {
+                                console.log('another mind option: ' + mind);
+                                mind2 = mind;
+                                dailies.MindActivities.push(mind2.activity);
+                            });
+                        }
+                        else {
+                            dailies.MindActivities.push(mind2.activity);
+                        }
+                        console.log(dailies.MindActivities[0]);
+                        console.log(dailies.MindActivities[1]);
+                    });
+
+                    models.Body.random(function(err, body) {
+                        var body1 = body;
+                        dailies.BodyActivities.push(body1.activity);
+                        models.Body.random(function(err, body) {
+                            var body2 = body;
+                            if ( dailies.BodyActivities[0] == body2.activity) {
+                                models.Body.random(function(err, body) {
+                                    console.log('another body option: ' + body);
+                                    body2 = body;
+                                    dailies.BodyActivities.push(body2.activity);
+                                });
+                            }
+                            else {
+                                dailies.BodyActivities.push(body2.activity);
+                            }
+                            console.log(dailies.BodyActivities[0]);
+                            console.log(dailies.BodyActivities[1]);
+                        });
+
+                        models.Soul.random(function(err, soul) {
+                            var soul1 = soul;
+                            dailies.SoulActivities.push(soul1.activity);
+                            models.Soul.random(function(err, soul) {
+                                var soul2 = soul;
+                                if ( dailies.SoulActivities[0] == soul2.activity) {
+
+                                    models.Soul.random(function(err, soul) {
+                                        console.log('another soul option: ' + soul);
+                                        var soul3 = soul;
+                                    });
+                                    dailies.SoulActivities.push(soul3.activity);
+                                }
+                                else {
+                                    dailies.SoulActivities.push(soul2.activity);
+                                }
+                                console.log(dailies.SoulActivities[0]);
+                                console.log(dailies.SoulActivities[1]);
+
+                                dailies.save(function(err) {
+                                    if (err) {
+                                        res.status(500);
+                                    };
+                                    console.log(todayDate + "'s daily saved: ");
+                                    console.log('----------- new daily generated --------------------');
+                                    console.log(dailies);
+                                    daily = dailies;
+
+                                    res.render('main.ejs', {
+                                        user : req.user, 
+                                        video: '', 
+                                        picture: '',
+                                        completed: completed,
+                                        dailies: daily
+                                    });
+                                });
+                            }); 
+                        }); 
+                    }); 
+                });
+
+            }
+            else { 
+                daily = dailies;
+                console.log('---------  the dailies for today ----------');
+                console.log(daily);
+                console.log('---------  --------------------- ----------');
+
+                res.render('main.ejs', {
+                    user : req.user, 
+                    video: '', 
+                    picture: '',
+                    completed: completed,
+                    dailies: daily
+                });
+            }
+
+            req.user.save(function(err) {
+                if (err){
+                    res.status(500);
+                }
+                console.log('user saved, view their completed dailies');
+                console.log(req.user.completion[0]);
+            
+            });
+
         });
-
-        res.render('main.ejs', {
-            user : req.user, 
-            video: '', 
-            picture: '',
-            completed: completed,
-            dailies: daily
-        });
-
-
+          
      //   user activity completions are tracked and saved here
 
         app.post('/mindComplete', function(req, res) {

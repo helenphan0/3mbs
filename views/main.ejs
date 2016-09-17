@@ -37,9 +37,8 @@
 <main>
 <section class="dashboard">
     <div><% if (user) { %>
-      <h1>Welcome, <%= user.local.nickname %><%= user.facebook.name %><%= user.google.name %>! </h1>
-      <p>Today's date is: <%= dailies.day %></p>
-      <% } %>
+      <h1>Welcome, <%= user.local.nickname %><%= user.facebook.name %><%= user.google.name %>! <% } %></h1>
+      <p><% if (dailies) { %>Today's date is: <%= dailies.day %><% } %></p>
       <p>You have completed the following today</p>
       <div id="mind-sum" class="db-item"><%= user.completion[0].mtotal %> <i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
       <div id="body-sum" class="db-item"><%= user.completion[0].btotal %> <i class="fa fa-bicycle" aria-hidden="true"></i></div>
@@ -60,7 +59,7 @@
             <button form="soulform" type="submit">Add <i class="fa fa-heart" aria-hidden="true"></i></button>
         </form>
       </div>
-      <div><p class="past-activities">Past Activities <i class="fa fa-files-o" aria-hidden="true"></i></p><ul><% for (var i = 0; i< user.completion.length; i++) {%>
+      <div class="past-activities-box"><p class="past-activities">Past Activities <i class="fa fa-files-o" aria-hidden="true"></i></p><ul><% for (var i = 0; i< user.completion.length; i++) {%>
       <li><%= user.completion[i].day %>: <%= user.completion[i].mtotal %> Mind <%= user.completion[i].btotal %> Body <%= user.completion[i].stotal %> Soul  </li>
       <!-- <div class="profile">Edit your profile</div> --><% } %></ul></div>
       <a href="/logout" class="logout btn btn-default btn-sm">Logout</a>
@@ -70,7 +69,7 @@
   <section class="mbs">
     <div class="mind">
       <p class="mbs">Mind <i class="fa fa-graduation-cap" aria-hidden="true"></i></p>
-      <div class="options">
+      <div class="options"><% if (dailies) { %>
         <div data-id="0" class="selection <% if (user.completion[0].Mind[0] != 0) { %><%= 'disable' %><% } %>">
           <div class="selection-text mind1"><%= dailies.MindActivities[0] %></div>
           <a class="mindComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
@@ -116,7 +115,7 @@
           <a class="soulComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></a>
           </div>
         <div data-id="2" class="selection <% if (user.completion[0].Soul[2] != 0) { %><%= 'disable' %><% } %>">
-          <div class="selection-text soul3">Look at cute animal pictures</div>
+          <div class="selection-text soul3">Look at cute animal pictures</div><% } %>
           <a class="soulComplete"><div class="check"><i class="fa fa-check-circle" aria-hidden="true"></i></div></div></a>
       </div>
     </div>
