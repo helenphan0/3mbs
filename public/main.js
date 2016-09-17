@@ -51,7 +51,6 @@ $(document).ready(function() {
 		});
 	});
 
-
 	$('.bodyComplete').click(function() {
 		console.log('bodyComplete clicked');
 		var item = {

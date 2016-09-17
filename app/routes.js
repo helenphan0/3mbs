@@ -35,7 +35,6 @@ var daily;
 
 module.exports = function(app, passport, unirest) { 
     
-
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
@@ -46,14 +45,11 @@ module.exports = function(app, passport, unirest) {
     // =====================================
     // LOGIN ===============================
     // =====================================
-    // show the login form
     app.get('/login', function(req, res) {
 
-        // render the page and pass in any flash data if it exists
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
     });
 
-    // process the login form
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/main', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
@@ -63,18 +59,15 @@ module.exports = function(app, passport, unirest) {
     // =====================================
     // SIGNUP ==============================
     // =====================================
-    // show the signup form
     app.get('/signup', function(req, res) {
 
-        // render the page and pass in any flash data if it exists
         res.render('index.ejs', { message: req.flash('signupMessage') });
     });
 
-    // process the signup form
       app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/main', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
+        successRedirect : '/main', 
+        failureRedirect : '/signup', 
+        failureFlash : true 
     }));
 
     // =====================================
@@ -94,6 +87,7 @@ module.exports = function(app, passport, unirest) {
             req.user.completion.unshift(completed);
         }
 
+        // check if today's activities have been generated, if not, a new one will be created
         models.Dailies.findOne({day: todayDate}, function(err, dailies) {
 
             console.log('models.Dailies search initiated');
@@ -271,7 +265,6 @@ module.exports = function(app, passport, unirest) {
         //  user created activities are saved here
         //  daily activities will pull from same collection
 
-        // ===================
         app.post('/addMind', function(req, res) {
             models.Mind.findOne({ activity: req.body.mindvalue}, function(err, mind) {
 
@@ -303,7 +296,6 @@ module.exports = function(app, passport, unirest) {
             });
         });
 
-        // ===================
         app.post('/addBody', function(req, res) {
             models.Body.findOne({ activity: req.body.bodyvalue}, function(err, mind) {
 
@@ -335,7 +327,6 @@ module.exports = function(app, passport, unirest) {
             });
         });
     
-        // ===================
         app.post('/addSoul', function(req, res) {
             models.Soul.findOne({ activity: req.body.soulvalue}, function(err, mind) {
 
@@ -368,6 +359,8 @@ module.exports = function(app, passport, unirest) {
         });
 
         // ======================================
+        // NASA photo of the day and YouTube workout activities are static suggestions
+        // API calls are done here
          app.get('/main/youtube', function(req, res) {
             unirest.get(ytURL)
             .end(function(response) {
@@ -419,19 +412,16 @@ module.exports = function(app, passport, unirest) {
 
             });
         });
-    
 
     });
     
     // =====================================
     // FACEBOOK ROUTES =====================
     // =====================================
-    // route for facebook authentication and login
     // add permissions to scope array for additional fields
     // 'public_profile' SHOULD be added to the scope, contrary to facebook developer documentation
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email', 'public_profile', 'publish_actions'] }));
 
-    // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
             successRedirect : '/main',
@@ -441,21 +431,14 @@ module.exports = function(app, passport, unirest) {
     // =====================================
     // GOOGLE ROUTES =======================
     // =====================================
-    // send to google to do the authentication
-    // profile gets us their basic information including their name
-    // email gets their emails
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
-    // the callback after google has authenticated the user
     app.get('/auth/google/callback',
             passport.authenticate('google', {
                     successRedirect : '/main',
                     failureRedirect : '/'
             }));
-/*
 
-
-*/
     // =====================================
     // LOGOUT ==============================
     // =====================================
@@ -468,10 +451,8 @@ module.exports = function(app, passport, unirest) {
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on 
     if (req.isAuthenticated())
         return next();
 
-    // if they aren't redirect them to the home page
     res.redirect('/');
 }

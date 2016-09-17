@@ -4,8 +4,8 @@
 module.exports = {
 
     'facebookAuth' : {
-        'clientID'      : '1819293234971177', // your App ID
-        'clientSecret'  : 'de31cc0ee57b9fba02d030b48a1c934f', // your App Secret
+        'clientID'      : '1819293234971177', 
+        'clientSecret'  : 'de31cc0ee57b9fba02d030b48a1c934f', 
         'callbackURL'   : 'https://glacial-cove-28448.herokuapp.com/auth/facebook/callback',
         'profileFields' :  ["emails", "displayName", "name", "email", "hometown", "location"]
     },

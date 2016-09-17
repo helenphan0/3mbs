@@ -17,9 +17,9 @@
 <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '1819293234971177',
+      appId      : "1819293234971177",
       xfbml      : true,
-      version    : 'v2.7'
+      version    : "v2.7"
     });
   };
 
@@ -29,9 +29,7 @@
      js = d.createElement(s); js.id = id;
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
-
+   }(document, "script", "facebook-jssdk"));
 </script>
 
 <main>
@@ -61,7 +59,7 @@
       </div>
       <div class="past-activities-box"><p class="past-activities">Past Activities <i class="fa fa-files-o" aria-hidden="true"></i></p><ul><% for (var i = 0; i< user.completion.length; i++) {%>
       <li><%= user.completion[i].day %>: <%= user.completion[i].mtotal %> Mind <%= user.completion[i].btotal %> Body <%= user.completion[i].stotal %> Soul  </li>
-      <!-- <div class="profile">Edit your profile</div> --><% } %></ul></div>
+      <% } %></ul></div>
       <a href="/logout" class="logout btn btn-default btn-sm">Logout</a>
     </div>
   </section>
@@ -121,10 +119,9 @@
     </div>
   </section>
 
-
 </main>
 
   <script src="https://code.jquery.com/jquery.min.js"></script>
-    <script src="/main.js"></script> 
+  <script src="/main.js"></script> 
 </body>
 </html>
