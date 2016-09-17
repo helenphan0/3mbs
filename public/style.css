@@ -172,7 +172,7 @@ p.mbs {
 	margin: 5px auto;
 }
 
-p.mbs, a.btn-primary, a.btn-danger {
+p.mbs, a.btn-primary, a.btn-danger, a.btn-primary:visited, a.btn-danger:visited {
 	color: white;
 }
 
