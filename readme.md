@@ -19,9 +19,9 @@ Users can submit his/her own activities, which will then become part of the coll
 
 # Technology
 
-- This site uses HTML, CSS, and EJS templates to present its contents on a responsive and dynamic front-end display.
+- This site uses HTML, CSS, jQuery, and EJS templates to present its contents on a responsive and dynamic front-end display.
 - Node.js and Express are utilized to handle the back-end interface, creating request endpoints, handling routes, and sending response data to the front-end templates. 
-- Profile creation and authentication occurs through Passport-Local, Passport-Fackbook, and Passport-Google strategies, and the Connect-Flash module is used to display signup or login errors such as incorrect password entry. The bcryptjs module is used in tandem with Passport to secure each user's password.
+- Profile creation and authentication occurs through Passport-Local, Passport-Facebook, and Passport-Google-OAuth strategies, and the Connect-Flash module is used to display signup or login errors such as incorrect password entry. Bcryptjs is used in tandem with Passport to secure each user's password.
 - User profiles, submitted content, and daily activities are saved, generated, and retrieved with MongoDB and Mongoose.
-- The two static activities (NASA's photo of the day and Youtube's workout video) are retrieved through ajax calls on the server, utilizing the Unirest module.
+- The two static activities, NASA's photo of the day and Youtube's workout video, are pulled from NASA's API and YouTube's API respectively, and utilize Unirest to send ajax calls from the server.
 
