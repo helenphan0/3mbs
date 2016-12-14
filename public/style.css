@@ -4,12 +4,9 @@
 
 body {
 	width: 100%;
-	background-image: url('coffee6.jpg');
-	min-height: 1300px; 
-	background-size: cover;
-	background-repeat: no-repeat;
-    background-position: left top;
-    color: #2D2A32;
+	background: #F0C27B; 
+	background: -webkit-linear-gradient(to left, #F0C27B , #4B1248); 
+	background: linear-gradient(to left, #F0C27B , #4B1248); 
 }
 
 .hidden {
@@ -146,9 +143,11 @@ p.past-activities {
 }
 
 .form {
-	margin: 50px auto;
-	width: 400px;
+	border: 1px solid whitesmoke;
+	margin: 25px auto;
+	max-width: 400px;
 	padding: 20px;
+	width: 90%;
 }
 
 .intro, .dashboard, .mbs {

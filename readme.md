@@ -5,6 +5,7 @@ Live site: https://glacial-cove-28448.herokuapp.com/
 3mbs is a daily activity reminder to help you live a healthier, happier lifestyle.
 
 ![](public/3mbs-index.png)
+
 ![](public/3mbs-login.png)
 
 # Usage

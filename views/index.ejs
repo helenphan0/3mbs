@@ -40,47 +40,49 @@
 <section class="intro">
   <div>
     <h1>3mbs</h1>
-    <h3>Take three simple steps a day and improve your life in mind, body, and soul.</h3>
+    <h3>Take three simple steps a day and improve your life.</h3>
+    <p>3mbs will provide you with three easy-to-do, daily activities related to your Mind, Body, and Soul. Develop healthy habits by following 3mbs each day.</p>
     <p>Have an account? <a class="login" href="/login">Login here</a></p>
-
   </div>
+
+    <section class="form">
+
+      <form id="form" action="/signup" method="post">
+        <h4>Create your account</h4>
+        
+            <!-- show any messages that come back with authentication -->
+          <% if (message.length > 0) { %>
+              <div class="alert alert-danger"><%= message %></div>
+          <% } %>
+    
+          <div class="form-group">
+              <label for="nickname">Nickname:</label>
+              <input type="text" id="nickname" name="nickname" placeholder="Smash W">
+          </div>
+          <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" placeholder="forhire@cleareyes.com">
+          </div>
+          <div class="form-group">
+              <label for="password">Password:</label>
+              <input class="password2" type="password">
+              <input type="password" id="password" name="password" placeholder="confirm your password">
+          </div>
+          <div class="form-group">
+              <input class="submit signup" type="submit" value="Submit">
+          </div>
+
+          <div class="other-login">
+              <p>Login or Register with:</p>
+          <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+           <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+           </div>
+      </form>
+
+    </section>
   </section>
 
-  <section class="form">
-
-    <form id="form" action="/signup" method="post">
-      <h4>Create your account</h4>
-      
-          <!-- show any messages that come back with authentication -->
-        <% if (message.length > 0) { %>
-            <div class="alert alert-danger"><%= message %></div>
-        <% } %>
   
-        <div class="form-group">
-            <label for="nickname">Nickname:</label>
-            <input type="text" id="nickname" name="nickname" placeholder="Smash W">
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="forhire@cleareyes.com">
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input class="password2" type="password">
-            <input type="password" id="password" name="password" placeholder="confirm your password">
-        </div>
-        <div class="form-group">
-            <input class="submit signup" type="submit" value="Submit">
-        </div>
-
-        <div class="other-login">
-            <p>Login or Register with:</p>
-        <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
-         <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
-         </div>
-    </form>
-
-  </section>
 
 </main>  
 
