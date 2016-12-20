@@ -25,6 +25,12 @@ button:hover, input.submit:hover {
 	border: 1px solid #D3CA4A;
 }
 
+a.logout {
+	float: right;
+	position: relative;
+	top: -25px;
+}
+
 i.fa-pencil-square:hover, i.fa-files-o:hover, a.login:hover, a.logout:hover, a.signup:hover, a.home:hover {
 	color: #F2E641;
 }
@@ -97,7 +103,7 @@ form>p {
 }
 
 .intro {
-	padding: 15px;
+	padding: 30px;
 	border-radius: 9px
 }
 
@@ -111,6 +117,7 @@ form>p {
 }
 
 .dashboard {
+	color: #525252;
 	min-height: 250px;
 	padding: 20px;
 	border-radius: 7px;
@@ -144,20 +151,21 @@ p.past-activities {
 
 .form {
 	border: 1px solid whitesmoke;
-	margin: 25px auto;
+	margin: 5px auto;
 	max-width: 400px;
 	padding: 20px;
 	width: 90%;
 }
 
 .intro, .dashboard, .mbs {
-	margin: 25px auto;
+	margin: 30px auto;
 	width: 60%;
 }
 
 div.mind, div.body, div.soul {
 	height: 25%;
 	font-size: 22px;
+	margin-bottom: 30px;
 }
 
 p.mbs {
@@ -176,9 +184,10 @@ p.mbs, a.btn-primary, a.btn-danger, a.btn-primary:visited, a.btn-danger:visited 
 }
 
 .selection {
+	border-radius: 4px;
 	margin: 5px;
 	min-height: 55px;
-	padding: 10px;
+	padding: 13px 20px;
 }
 
 .selection-text {
@@ -193,7 +202,7 @@ div.check, div.add-item-icon {
 	float: right;
 	height: 100%;
 	margin-left: 15px;
-	font-size: 25px;
+	font-size: 26px;
 	padding: 2px;
 	cursor: pointer;
 }
@@ -202,7 +211,7 @@ div.check:hover {
 	color: #DDD92A;
 }
 
-div.body3 a, div.mind3 a, a:visited {
+div.options a, a:visited {
 	color: black;
 }
 
@@ -292,5 +301,9 @@ button.back, button.return {
 
     ul {
     	padding-left: 6%;
+    }
+
+    a.logout {
+    	top: 0px;
     }
 }

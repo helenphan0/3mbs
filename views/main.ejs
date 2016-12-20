@@ -34,7 +34,9 @@
 
 <main>
 <section class="dashboard">
-    <div><% if (user) { %>
+    <div>
+      <a href="/logout" class="logout btn btn-default btn-sm">Logout</a>
+      <% if (user) { %>
       <h1>Welcome, <%= user.local.nickname %><%= user.facebook.name %><%= user.google.name %>! <% } %></h1>
       <p><% if (dailies) { %>Today's date is: <%= dailies.day %><% } %></p>
       <p>You have completed the following today</p>
@@ -60,7 +62,6 @@
       <div class="past-activities-box"><p class="past-activities">Past Activities <i class="fa fa-files-o" aria-hidden="true"></i></p><ul><% for (var i = 0; i< user.completion.length; i++) {%>
       <li><%= user.completion[i].day %>: <%= user.completion[i].mtotal %> Mind <%= user.completion[i].btotal %> Body <%= user.completion[i].stotal %> Soul  </li>
       <% } %></ul></div>
-      <a href="/logout" class="logout btn btn-default btn-sm">Logout</a>
     </div>
   </section>
 

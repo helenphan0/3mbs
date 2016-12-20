@@ -18,25 +18,27 @@
  <section class="form">
 
     <form id="form" action="/login" method="post">
-      <h4>Log in to your account</h4>
+        <h1>3mbs</h1>
+        <h3>Take three simple steps a day <br>and improve your life.</h3>
+        <h4>Log in to your account</h4>
 
-        <% if (message.length > 0) { %>
-            <div class="alert alert-danger"><%= message %></div>
-        <% } %>
+            <% if (message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% } %>
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email">
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
-        </div>
-        <div class="form-group">
-            <input class="submit" type="submit" value="Login">
-        </div>
-    <p>Need an account? <a class="signup" href="/signup">Signup</a></p>
-    <p>Or go <a class="home" href="/">home</a>.</p>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div class="form-group">
+                <input class="submit" type="submit" value="Login">
+            </div>
+        <p>Need an account? <a class="signup" href="/signup">Signup</a></p>
+        <p>Or go <a class="home" href="/">home</a>.</p>
     </form>
   </section>
 </main>
